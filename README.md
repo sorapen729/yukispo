@@ -1,24 +1,109 @@
-# README
+# ゆきスポ
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+##  サービス概要
+スキー場を検索したい場面で使用し、近隣のスキー場の情報を得られる。
 
-Things you may want to cover:
+## 開発背景
+スキー場検索アプリはウェブアプリとスマホアプリの両方で複数存在しているが、自分が使用しやすいと思えるアプリがなかったので自分自身で開発したいと考えた。
 
-* Ruby version
+## ターゲット層
+社会人になりたての男性(19〜23歳)で、あまりスキー場に詳しくない人
 
-* System dependencies
+### ターゲット層の理由
+私自身がスノーボードを始めたのが社会人なりたての時だったから。
 
-* Configuration
+日本国内で「10代後半〜20代前半の世代がスキー・スノーボードを始める割合が多い」という傾向があると考えた。
+- 根拠となるソース
+1. https://www.juntendo.ac.jp/assets/maneka_20161313037.pdf?utm_source=chatgpt.com
+2. https://blog.skibumpslabo.com/archives/1130?utm_source=chatgpt.com
+3. https://www.recruit.co.jp/newsroom/pressrelease/2023/1019_12686.html
+4. https://www.recruit.co.jp/newsroom/pressrelease/2024/1107_14883.html?utm_source=chatgpt.com
 
-* Database creation
+### ユーザー獲得方法
+スノーボードをする友人や知り合いの LINE ・ Discord グループに投稿をお願いできないか相談する
+参加するコミュニティの掲示板やチャットに参加して雑談しながら紹介する
+RUNTEQ で知り合った方々に「テストしてフィードバックしていただけないでしょうか？」と直接声かけしてお願いする
 
-* Database initialization
+## サービス利用のイメージ
+- 自分に合ったスキー場がすぐに見つかり、迷わず行動できる
+- 始めてでも安心してスキーを楽しめる、スキー場選びに失敗しづらい
+- 「不安」や「面倒くささ」を解消して、余裕ある週末レジャーを実現できる
 
-* How to run the test suite
+### サービス差別化のポイント・推しポイント
+「複数のスキー場への案内ルートを地図上に一括表示し、所要時間や距離で比較・ソートできるアプリ」
+他のサービスは「行きたいスキー場が決まっている人向け」ですが、このアプリは「どこに行くか迷っている人向け」に作成します。
 
-* Services (job queues, cache servers, search engines, etc.)
+- Google で「スキー場検索」と調べて上位に出てくるサイトと比較しました。
+1. SURF & SNOW （楽天グループ） → 情報量が多い。ルート検索機能が乏しい。地図上で複数比較不可。行動までの導線が長い。
+2. 好きゲレ → 感情優先で比較性・利便性は低い。ルート案内なし。
+3. オリオンツアー → 個人の車移動や比較機能が弱い。地図機能やルート比較なし。
+`結論`:他のサービスは**行きたいスキー場が決まっている人向け**ですが、このアプリは**どこに行くか迷っている人向け**に作成します。
 
-* Deployment instructions
+## 機能候補
+- ユーザー登録機能(gem'devise'を導入【技術検証済】)
+- ログイン機能(gem'devise'を導入【技術検証済】)
+- ログアウト機能(gem'devise'を導入【技術検証済】)
+- マップ表示機能(Google Map を表示、 Maps JavaScript API を導入【マップ表示とピンを立てるところまで技術検証済】)
+- 所要時間の取得機能(Google Maps Routes API 【技術検証未実施】)
+- 時間・距離ソート機能(Google Maps Routes API を導入【技術検証未実施】)
+- 検索・絞り込み機能(スキー場の基本情報機能一覧から検索・表示、 gem'ransack'を導入)
+- コメント機能
+- ブックマーク機能
+- ページネーション
+- コメント機能(非 ajax)
+- モバイル最適化 UI(Tailwind CSS)
+- レスポンシブ対応(Tailwind CSS)
+- タグ機能（「初心者向けスキー場」の選択・表示を簡易的に行える）
+- パスワードリセット
+- お問い合わせ
+- 利用規約
+- プライバシーポリシー
+- ファビコン
+- SNS ログイン
+- OGP 
 
-* ...
+### MVP
+- ユーザー登録機能(gem'devise'を導入【技術検証済】)
+- ログイン機能(gem'devise'を導入【技術検証済】)
+- ログアウト機能(gem'devise'を導入【技術検証済】)
+- マップ表示機能(Google Map を表示、 Maps JavaScript API を導入【マップ表示とピンを立てるところまで技術検証済】)
+- 所要時間の取得機能(Routes API 【技術検証未実施】)
+- 時間・距離ソート機能(Routes API と Geocoding API を導入【技術検証未実施】)
+- 検索・絞り込み機能(スキー場の基本情報機能一覧から検索・表示、gem'ransack'を導入)
+
+### 本リリース
+- 現在地表示機能（現在地情報を取得する、 Geolocation API ）
+- コメント機能
+- ブックマーク機能
+- ページネーション
+- コメント機能(非 ajax)
+- モバイル最適化 UI(Tailwind CSS)
+- レスポンシブ対応(Tailwind CSS)
+- タグ機能（「初心者向けスキー場」の選択・表示を簡易的に行える）
+- パスワードリセット
+- お問い合わせ
+- 利用規約
+- プライバシーポリシー
+- ファビコン
+- SNS ログイン
+- OGP
+
+### 拡張性
+- スキー場以外の周辺エリア(温泉施設やお土産場所)などの情報も地図上に表示する
+- 経路案内やスキー場の情報を LINE で共有できるようにする
+- カレンダー連携によるスケジュール管理
+- おおよその交通費+リフト券+宿泊費などの合計額の予想表示
+
+## 機能の実装方針予定
+Maps JavaScript API による地図表示機能
+Routes API による経路案内機能
+gem 'devise'のよるユーザー登録・ログイン・ログアウト機能
+
+## 技術スタック
+- Rails のバージョン Rails 7.2.1
+- 使用予定のデプロイサーバー Render.com
+- 使用予定の DB PostgreSQL
+- 高度な技術で使う予定の Gem やライブラリなど 
+   - Maps JavaScript API を導入【マップ表示とピンを立てるところまで技術検証済】
+   - Google Maps Routes API 【技術検証の途中】
+   - Geocoding API 【技術検証未実施】
