@@ -145,6 +145,9 @@ Figma：https://www.figma.com/design/hwbNG0WOVNoggI6WKM0Mli/%E3%82%86%E3%81%8D%E
 [![Image from Gyazo](https://i.gyazo.com/408d611540188ed6c9cfa77abd55a0bc.png)](https://gyazo.com/408d611540188ed6c9cfa77abd55a0bc)
 
 ### 本サービスの概要（700文字以内）
+スキー場を検索したい場面で使用し、近隣のスキー場の情報を得られる。
+気になったスキー場のお気に入り登録ができる。
+タグによる絞り込みができる。
 
 ### MVPで実装する予定の機能
 - [x] ユーザー登録機能
