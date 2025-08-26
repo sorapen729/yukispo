@@ -142,7 +142,7 @@ Figma：https://www.figma.com/design/hwbNG0WOVNoggI6WKM0Mli/%E3%82%86%E3%81%8D%E
 - [x] 作り込みはある程度完了している（Figmaを見て画面の作成ができる状態にある）
 
 ### ER図
-[![Image from Gyazo](https://i.gyazo.com/408d611540188ed6c9cfa77abd55a0bc.png)](https://gyazo.com/408d611540188ed6c9cfa77abd55a0bc)
+[![Image from Gyazo](https://i.gyazo.com/dcf908c374562c01b575916b1f2ce485.png)](https://gyazo.com/dcf908c374562c01b575916b1f2ce485)
 
 ### 本サービスの概要（700文字以内）
 スキー場を検索したい場面で使用し、近隣のスキー場の情報を得られる。
