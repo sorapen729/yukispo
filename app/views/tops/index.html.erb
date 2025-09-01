@@ -1,0 +1,82 @@
+<!-- ヘッダー -->
+<header class="w-full bg-sky-400 text-white">
+  <div class="max-w-md mx-auto flex items-center justify-between px-4 py-3">
+    <div class="text-xl font-bold tracking-wide flex items-center gap-1">
+      ゆきスポ<span aria-hidden="true">❄️</span>
+    </div>
+    <!-- ハンバーガー -->
+    <button aria-label="メニュー" class="inline-flex flex-col gap-1">
+      <span class="block w-6 h-[2px] bg-white"></span>
+      <span class="block w-6 h-[2px] bg-white"></span>
+      <span class="block w-6 h-[2px] bg-white"></span>
+    </button>
+  </div>
+</header>
+
+<!-- メイン -->
+<main class="max-w-md mx-auto px-4 pt-6 pb-24">
+  <!-- タイトル -->
+  <section class="text-center">
+    <h1 class="text-[40px] leading-tight font-extrabold text-slate-800 drop-shadow-sm select-none">
+      ゆきスポ<span aria-hidden="true">❄️</span>
+    </h1>
+    <p class="text-slate-500 mt-1">〜 スキー場検索アプリ 〜</p>
+  </section>
+
+  <!-- ボタン群 -->
+  <section class="mt-8 space-y-4">
+    <!-- スキー場を探す -->
+    <%= link_to (defined?(route_search_path) ? route_search_path : "#"),
+      class: "block w-full" do %>
+      <div
+        class="w-full text-center rounded-xl px-6 py-3 bg-slate-200 text-slate-800 font-semibold
+               shadow-sm hover:shadow transition active:scale-[0.99]"
+        style="border: 1px solid rgba(0,0,0,0.08);">
+        スキー場を探す
+      </div>
+    <% end %>
+
+    <!-- ログイン -->
+    <%= link_to (defined?(new_user_session_path) ? new_user_session_path : "#"),
+      class: "block w-full" do %>
+      <div
+        class="w-full text-center rounded-xl px-6 py-3 bg-sky-500 text-white font-semibold
+               shadow-sm hover:bg-sky-600 transition active:scale-[0.99]">
+        ログイン
+      </div>
+    <% end %>
+  </section>
+</main>
+
+<!-- ボトムナビ（固定） -->
+<nav class="fixed left-0 right-0 bottom-0 bg-slate-900 text-white">
+  <div class="max-w-md mx-auto flex items-center justify-around py-2 text-xs">
+    <!-- 探す -->
+    <%= link_to (defined?(route_search_path) ? route_search_path : "#"),
+      class: "flex flex-col items-center gap-1 px-3 py-1 hover:opacity-90" do %>
+      <span class="h-[2px] w-6 bg-sky-400"></span>
+      <span>探す</span>
+    <% end %>
+
+    <!-- 一覧 -->
+    <%= link_to (defined?(ski_resorts_path) ? ski_resorts_path : "#"),
+      class: "flex flex-col items-center gap-1 px-3 py-1 hover:opacity-90" do %>
+      <span class="h-[2px] w-6 bg-transparent"></span>
+      <span>一覧</span>
+    <% end %>
+
+    <!-- お気に入り -->
+    <%= link_to (defined?(favorites_path) ? favorites_path : "#"),
+      class: "flex flex-col items-center gap-1 px-3 py-1 hover:opacity-90" do %>
+      <span class="text-lg">★</span>
+      <span class="text-[10px] opacity-80">お気に入り</span>
+    <% end %>
+  </div>
+</nav>
+
+<!-- 画面幅が広い時でもスマホ幅で中央に表示されるよう、軽いフォールバックCSS -->
+<style>
+  @media (min-width: 768px) {
+    main, header > div, nav > div { max-width: 420px; }
+  }
+</style>

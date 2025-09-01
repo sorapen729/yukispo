@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get "tops/index"
   get "posts/index"
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
@@ -11,5 +12,14 @@ Rails.application.routes.draw do
   get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
 
   # Defines the root path route ("/")
-  root "posts#index"
+  # 既存
+  # root "posts#index"
+
+  # 新しくTOPページをルートに設定
+  root "tops#index"
+
+  # ※ 検索フォームの送信先（ダミー）。後で実装ができたら適切なパスに変更してください。
+  get "route_search", to: "routes#search", as: :route_search
+
+  # 既存の他ルート…
 end
