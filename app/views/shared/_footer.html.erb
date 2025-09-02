@@ -1,0 +1,32 @@
+<!-- ボトムナビ（固定） -->
+<nav class="fixed left-0 right-0 bottom-0 bg-slate-900 text-white">
+  <div class="max-w-md mx-auto flex items-center justify-around py-2 text-xs">
+    <!-- 探す -->
+    <%= link_to (defined?(route_search_path) ? route_search_path : "#"),
+      class: "flex flex-col items-center gap-1 px-3 py-1 hover:opacity-90" do %>
+      <span class="h-[2px] w-6 bg-sky-400"></span>
+      <span>探す</span>
+    <% end %>
+
+    <!-- 一覧 -->
+    <%= link_to (defined?(ski_resorts_path) ? ski_resorts_path : "#"),
+      class: "flex flex-col items-center gap-1 px-3 py-1 hover:opacity-90" do %>
+      <span class="h-[2px] w-6 bg-transparent"></span>
+      <span>一覧</span>
+    <% end %>
+
+    <!-- お気に入り -->
+    <%= link_to (defined?(favorites_path) ? favorites_path : "#"),
+      class: "flex flex-col items-center gap-1 px-3 py-1 hover:opacity-90" do %>
+      <span class="text-lg">★</span>
+      <span class="text-[10px] opacity-80">お気に入り</span>
+    <% end %>
+  </div>
+</nav>
+
+<!-- 画面幅が広い時でもスマホ幅で中央に表示されるよう、軽いフォールバックCSS -->
+<style>
+  @media (min-width: 768px) {
+    main, header > div, nav > div { max-width: 420px; }
+  }
+</style>
