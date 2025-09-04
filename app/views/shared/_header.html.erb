@@ -7,9 +7,12 @@
 
     <div class="flex item-center gap-4">
       <% if user_signed_in? %>
-          <%= link_to "ログアウト", destroy_user_session_path, data: { turbo_method: :delete } %>
+        <span style="background: red; color: white; padding: 2px;">
+          <%= "#{current_user.last_name || '姓なし'} #{current_user.first_name || '名なし'}" %>
+        </span>
+        <%= link_to "ログアウト", destroy_user_session_path, data: { turbo_method: :delete } %>
       <% else %>
-          <%= link_to "ログイン", new_user_session_path %>
+        <%= link_to "ログイン", new_user_session_path %>
       <% end %>
 
       <!-- ハンバーガー -->
