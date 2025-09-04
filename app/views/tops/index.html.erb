@@ -25,8 +25,7 @@
     <% unless user_signed_in? %>
       <%= link_to (defined?(new_user_session_path) ? new_user_session_path : "#"),
         class: "block w-full" do %>
-        <div
-          class="w-full text-center rounded-xl px-6 py-3 bg-sky-500 text-white font-semibold
+        <div class="w-full text-center rounded-xl px-6 py-3 bg-sky-500 text-white font-semibold
                  shadow-sm hover:bg-sky-600 transition active:scale-[0.99]">
           ログイン
         </div>
