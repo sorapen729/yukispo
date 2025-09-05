@@ -58,3 +58,9 @@ end
 
 gem "tailwindcss-rails"
 gem "tailwindcss-ruby", "3.4.17"
+
+# ユーザー登録機能
+gem "devise"
+
+# デコレーター
+gem "draper", "4.0.2"
