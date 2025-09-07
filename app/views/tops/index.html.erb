@@ -11,11 +11,9 @@
   <!-- ボタン群 -->
   <section class="mt-8 space-y-4">
     <!-- スキー場を探す -->
-    <%= link_to (defined?(route_search_path) ? route_search_path : "#"),
-      class: "block w-full" do %>
-      <div
-        class="w-full text-center rounded-xl px-6 py-3 bg-slate-200 text-slate-800 font-semibold
-               shadow-sm hover:bg-slate-300 transition active:scale-[0.99]"
+    <%= link_to new_origin_selection_path, class: "block w-full" do %>
+      <div class="w-full text-center rounded-xl px-6 py-3 bg-slate-200 text-slate-800 font-semibold
+                  shadow-sm hover:bg-slate-300 transition active:scale-[0.99]"
         style="border: 1px solid rgba(0,0,0,0.08);">
         スキー場を探す
       </div>
@@ -26,7 +24,7 @@
       <%= link_to (defined?(new_user_session_path) ? new_user_session_path : "#"),
         class: "block w-full" do %>
         <div class="w-full text-center rounded-xl px-6 py-3 bg-sky-500 text-white font-semibold
-                 shadow-sm hover:bg-sky-600 transition active:scale-[0.99]">
+                    shadow-sm hover:bg-sky-600 transition active:scale-[0.99]">
           ログイン
         </div>
       <% end %>

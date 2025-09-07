@@ -19,8 +19,6 @@ Rails.application.routes.draw do
   # 新しくTOPページをルートに設定
   root "tops#index"
 
-  # ※ 検索フォームの送信先（ダミー）。後で実装ができたら適切なパスに変更してください。
-  get "route_search", to: "routes#search", as: :route_search
-
-  # 既存の他ルート…
+  #<出発地の選択画面>
+  resource :origin_selection, only: [:new, :create]
 end
