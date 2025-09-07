@@ -2,7 +2,7 @@ require "test_helper"
 
 class OriginSelectionsControllerTest < ActionDispatch::IntegrationTest
   test "should get new" do
-    get origin_selections_new_url
+    get new_origin_selection_url
     assert_response :success
   end
 end
