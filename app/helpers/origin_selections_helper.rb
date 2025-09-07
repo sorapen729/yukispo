@@ -1,0 +1,2 @@
+module OriginSelectionsHelper
+end
