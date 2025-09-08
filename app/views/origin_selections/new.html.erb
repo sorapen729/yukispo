@@ -12,15 +12,15 @@
       <div class="w-full text-center rounded-xl px-6 py-3 bg-slate-200 text-slate-800 font-semibold
                   shadow-sm hover:bg-slate-300 transition active:scale-[0.99]"
         style="border: 1px solid rgba(0,0,0,0.08);">
-        現在地から出発する（開発中）
+        現在地（開発中）
       </div>
     <% end %>
     <!-- 指定の住所から出発する -->
-    <%= link_to "#", class: "block w-full" do %>
+    <%= link_to origin_address_input_new_path, class: "block w-full" do %>
       <div class="w-full text-center rounded-xl px-6 py-3 bg-slate-200 text-slate-800 font-semibold
                   shadow-sm hover:bg-slate-300 transition active:scale-[0.99]"
         style="border: 1px solid rgba(0,0,0,0.08);">
-        指定の住所から出発する
+        住所入力
       </div>
     <% end %>
     <!-- 自宅から住所から出発する -->
@@ -28,7 +28,7 @@
       <div class="w-full text-center rounded-xl px-6 py-3 bg-slate-200 text-slate-800 font-semibold
                   shadow-sm hover:bg-slate-300 transition active:scale-[0.99]"
         style="border: 1px solid rgba(0,0,0,0.08);">
-        自宅の住所から出発する（開発中）
+        自宅（開発中）
       </div>
     <% end %>
   </section>

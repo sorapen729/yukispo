@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get "origin_address_input/new"
+  get "origin_address_input/create"
   devise_for :users
   get "tops/index"
   get "posts/index"
@@ -12,13 +14,13 @@ Rails.application.routes.draw do
   get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
   get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
 
-  # Defines the root path route ("/")
+  resource :origin_selection, only: %i[new]
+  resource :origin_address_input, only: %i[new create]
+
+    # Defines the root path route ("/")
   # 既存
   # root "posts#index"
 
   # 新しくTOPページをルートに設定
   root "tops#index"
-
-  # <出発地の選択画面>
-  resource :origin_selection, only: [ :new ]
 end
