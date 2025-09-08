@@ -20,5 +20,5 @@ Rails.application.routes.draw do
   root "tops#index"
 
   # <出発地の選択画面>
-  resource :origin_selection, only: [ :new, :create ]
+  resource :origin_selection, only: [ :new ]
 end
