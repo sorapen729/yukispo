@@ -1,13 +1,13 @@
 require "test_helper"
 
-class OriginAddressInputControllerTest < ActionDispatch::IntegrationTest
+class OriginAddressInputsControllerTest < ActionDispatch::IntegrationTest
   test "should get new" do
-    get origin_address_input_new_url
+    get new_origin_address_inputs_url
     assert_response :success
   end
 
   test "should get create" do
-    get origin_address_input_create_url
+    get origin_address_inputs_url
     assert_response :success
   end
 end

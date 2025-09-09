@@ -1,4 +1,4 @@
-class OriginAddressInputController < ApplicationController
+class OriginAddressInputsController < ApplicationController
   def new
   end
 
@@ -11,7 +11,7 @@ class OriginAddressInputController < ApplicationController
       }
       redirect_to root_path, notice: '出発地が設定されました'
     else
-      redirect_to origin_address_input_path, alert: '住所を入力してください'
+      redirect_to origin_address_inputs_path, alert: '住所を入力してください'
     end
   end
 end

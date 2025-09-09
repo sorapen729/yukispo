@@ -1,6 +1,4 @@
 Rails.application.routes.draw do
-  get "origin_address_input/new"
-  get "origin_address_input/create"
   devise_for :users
   get "tops/index"
   get "posts/index"
@@ -15,7 +13,7 @@ Rails.application.routes.draw do
   get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
 
   resource :origin_selection, only: %i[new]
-  resource :origin_address_input, only: %i[new create]
+  resources :origin_address_inputs, only: %i[new create]
 
     # Defines the root path route ("/")
   # 既存
