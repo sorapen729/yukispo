@@ -3,15 +3,12 @@ class OriginAddressInputsController < ApplicationController
   end
 
   def create
-    if params[:origin_address][:address].present?
-      session[:origin_address] = {
-        address: params[:origin_address][:address],
-        lat: params[:origin_address][:lat],
-        lng: params[:origin_address][:lng]
-      }
-      redirect_to root_path, notice: '出発地が設定されました'
+    @address = Address.new(address_params)
+    if @address.save
+      redirect_to root_path, success: '出発地が設定されました'
     else
-      redirect_to origin_address_inputs_path, alert: '住所を入力してください'
+      flash.now[:danger] = '住所を入力してください'
+      render :new, status: :unprocessable_entity
     end
   end
 end
