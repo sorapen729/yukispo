@@ -1,3 +1,10 @@
+<!-- フラッシュメッセージ -->
+<% flash.each do |message_type, message| %>
+  <div class="max-w-md mx-auto mb-4 px-4 py-3 rounded-lg bg-red-100 text-red-800 border border-red-200">
+    <%= message %>
+  </div>
+<% end %>
+
 <!-- メイン -->
 <main class="max-w-md mx-auto px-4 pt-6 pb-24">
   <!-- タイトル -->
@@ -16,7 +23,7 @@
     <div class="relative">
       <!-- ピンのアイコン -->
       <svg aria-hidden="true" class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 opacity-70"
-           viewBox="0 0 24 24" fill="currentColor">
+            viewBox="0 0 24 24" fill="currentColor">
         <path d="M12 2C8.686 2 6 4.686 6 8c0 4.5 6 12 6 12s6-7.5 6-12c0-3.314-2.686-6-6-6zm0 8.5A2.5 2.5 0 1 1 12 5.5a2.5 2.5 0 0 1 0 5z"/>
       </svg>
 
@@ -24,10 +31,10 @@
             required: true,
             autocomplete: "street-address",
             inputmode: "text",
-            placeholder: "例）東京都千代田区丸の内1-9-1（東京駅）",
+            placeholder: "例）東京都千代田区丸の内1-9-1",
             class: "w-full rounded-xl border border-black/10 px-10 py-3 bg-white
-                     focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent
-                     placeholder:text-slate-400" %>
+                    focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent
+                    placeholder:text-slate-400" %>
     </div>
   </div>
 
