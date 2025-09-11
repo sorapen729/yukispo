@@ -11,10 +11,4 @@ class OriginAddressInputsController < ApplicationController
       render :new, status: :unprocessable_entity
     end
   end
-
-  private
-
-  def address_params
-    params.require(:address).permit(:street, :city, :prefecture, :postal_code)
-  end
 end
