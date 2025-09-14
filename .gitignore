@@ -7,9 +7,11 @@
 # Ignore bundler config.
 /.bundle
 
-# Ignore all environment files (except templates).
-/.env*
-!/.env*.erb
+# env files (never commit real secrets)
+.env                 # どのフォルダにあっても .env を無視
+.env.*               # どのフォルダにあっても .env.local などを無視
+!.env.example        # どのフォルダでも .env.example は“無視解除”（=追跡OK）
+!.env.*.example      # どのフォルダでも .env.xxx.example は“無視解除”
 
 # Ignore all logfiles and tempfiles.
 /log/*
