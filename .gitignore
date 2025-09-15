@@ -8,10 +8,10 @@
 /.bundle
 
 # env files (never commit real secrets)
-.env                 # どのフォルダにあっても .env を無視
-.env.*               # どのフォルダにあっても .env.local などを無視
-!.env.example        # どのフォルダでも .env.example は“無視解除”（=追跡OK）
-!.env.*.example      # どのフォルダでも .env.xxx.example は“無視解除”
+.env
+.env.*
+!.env.example
+!.env.*.example
 
 # Ignore all logfiles and tempfiles.
 /log/*
