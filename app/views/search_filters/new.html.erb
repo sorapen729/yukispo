@@ -30,7 +30,7 @@
   </div>
 
   <!-- 検索フォーム -->
-  <%= form_with url: origin_address_inputs_path, scope: :origin_address, local: true do |f| %>
+  <%= form_with url: maps_path, method: :get, scope: :origin_address, local: true do |f| %>
   <div class="space-y-6">
     <!-- 距離設定 -->
     <div class="space-y-3">
