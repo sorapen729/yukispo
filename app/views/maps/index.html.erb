@@ -1,5 +1,5 @@
 <div class="map-container">
-  <h2 class="font-bold text-2xl mb-4 text-center">gmap</h2>
+  <h2 class="font-bold text-2xl mb-4 text-center">経路案内</h2>
   <div class="map-wrapper">
     <div id='map'></div>
   </div>
@@ -55,6 +55,7 @@
 <script>
 // 住所データをJavaScriptで使用できるように
 const addressesData = <%= raw @addresses.to_json %>;
+const latestAddress = <%= raw @latest_address.to_json %>;
 
 document.addEventListener('DOMContentLoaded', function() {
   initializeMap();
@@ -80,9 +81,14 @@ function initializeMap() {
 
   console.log('マップを作成中...');
 
+  // 最新の住所がある場合はそれを中心に、なければ東京を中心に
+  const initialCenter = latestAddress && latestAddress.lat && latestAddress.lng
+    ? { lat: parseFloat(latestAddress.lat), lng: parseFloat(latestAddress.lng) }
+    : { lat: 35.6762, lng: 139.6503 }; // 東京
+
   const map = new google.maps.Map(mapElement, {
-    zoom: 12,
-    center: { lat: 35.6762, lng: 139.6503 }, // 東京
+    zoom: 15, // 最新住所にフォーカスするためズームレベルを上げる
+    center: initialCenter,
   });
 
   // 住所データが存在する場合の処理
@@ -90,21 +96,17 @@ function initializeMap() {
     console.log('住所データ:', addressesData);
     console.log('住所データの件数:', addressesData.length);
 
-    // 各住所に対してジオコーディングまたは既存の緯度経度を使用してマーカーを作成
+    // 各住所に対してマーカーを作成（最新の住所は異なる色で表示）
     addressesData.forEach(function(address, index) {
       if (address.lat && address.lng) {
-        // 既に緯度経度がある場合
-        createMarker(map, address.lat, address.lng, address.address);
+        // 最新の住所（最初の要素）は赤色、それ以外は青色のマーカー
+        const isLatest = index === 0;
+        createMarker(map, address.lat, address.lng, address.address, isLatest);
       } else {
         // 緯度経度がない場合はジオコーディングを実行
         geocodeAddress(map, address.address, address.id);
       }
     });
-
-    // 最初の住所がある場合、そこを中心にする
-    if (addressesData[0] && addressesData[0].lat && addressesData[0].lng) {
-      map.setCenter({ lat: parseFloat(addressesData[0].lat), lng: parseFloat(addressesData[0].lng) });
-    }
   } else {
     // デフォルトマーカー（東京）
     const marker = new google.maps.Marker({
@@ -118,24 +120,32 @@ function initializeMap() {
 }
 
 // マーカーを作成する関数
-function createMarker(map, lat, lng, title) {
+function createMarker(map, lat, lng, title, isLatest = false) {
+  // 最新の住所は赤色で大きく、それ以外は青色で小さく表示
+  const markerColor = isLatest ? '#EF4444' : '#3B82F6';
+  const markerSize = isLatest ? 32 : 24;
+
   const marker = new google.maps.Marker({
     position: { lat: parseFloat(lat), lng: parseFloat(lng) },
     map: map,
     title: title,
     icon: {
       url: 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(`
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#EF4444">
+        <svg xmlns="http://www.w3.org/2000/svg" width="${markerSize}" height="${markerSize}" viewBox="0 0 24 24" fill="${markerColor}">
           <path d="M12 2C8.686 2 6 4.686 6 8c0 4.5 6 12 6 12s6-7.5 6-12c0-3.314-2.686-6-6-6zm0 8.5A2.5 2.5 0 1 1 12 5.5a2.5 2.5 0 0 1 0 5z"/>
         </svg>
       `),
-      scaledSize: new google.maps.Size(24, 24)
+      scaledSize: new google.maps.Size(markerSize, markerSize)
     }
   });
 
-  // マーカークリック時に住所を表示
+  // マーカークリック時に住所を表示（最新の住所の場合は「最新」ラベルを追加）
+  const content = isLatest
+    ? `<div style="font-weight: bold; color: #1f2937;">${title}<br><span style="color: #EF4444; font-size: 12px;">最新の住所</span></div>`
+    : `<div style="font-weight: bold; color: #1f2937;">${title}</div>`;
+
   const infoWindow = new google.maps.InfoWindow({
-    content: `<div style="font-weight: bold; color: #1f2937;">${title}</div>`
+    content: content
   });
 
   marker.addListener('click', function() {
