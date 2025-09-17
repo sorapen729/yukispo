@@ -59,12 +59,83 @@
 <% end %>
 
 <script>
-  // 超軽量：クリアボタン（Stimulus等なし）
   document.addEventListener("turbo:load", () => {
     const btn = document.getElementById("clear-address");
     const input = document.getElementById("origin_address_address");
-    if (btn && input) btn.addEventListener("click", () => { input.value = ""; input.focus(); });
+    const latField = document.getElementById("origin_address_lat");
+    const lngField = document.getElementById("origin_address_lng");
+    const form = input?.closest('form');
+
+    // クリアボタン機能
+    if (btn && input) {
+      btn.addEventListener("click", () => {
+        input.value = "";
+        if (latField) latField.value = "";
+        if (lngField) lngField.value = "";
+        input.focus();
+      });
+    }
+
+    // フォーム送信時にジオコーディングを実行
+    if (form && input && latField && lngField) {
+      form.addEventListener("submit", async (e) => {
+        const address = input.value.trim();
+
+        // 住所が入力されているが緯度経度が未設定の場合
+        if (address && (!latField.value || !lngField.value)) {
+          e.preventDefault(); // フォーム送信を一時停止
+
+          try {
+            // ジオコーディングを実行
+            const coords = await geocodeAddress(address);
+            if (coords) {
+              latField.value = coords.lat;
+              lngField.value = coords.lng;
+              console.log(`住所「${address}」を座標に変換: ${coords.lat}, ${coords.lng}`);
+
+              // ジオコーディング完了後にフォームを再送信
+              form.submit();
+            } else {
+              alert('住所の位置情報を取得できませんでした。住所を確認してください。');
+            }
+          } catch (error) {
+            console.error('ジオコーディングエラー:', error);
+            alert('住所の変換中にエラーが発生しました。もう一度お試しください。');
+          }
+        }
+      });
+    }
   });
+
+  // 住所をジオコーディングする関数
+  function geocodeAddress(address) {
+    return new Promise((resolve, reject) => {
+      // Google Maps APIが読み込まれているかチェック
+      if (typeof google === 'undefined' || !google.maps || !google.maps.Geocoder) {
+        console.error('Google Maps API が読み込まれていません');
+        reject('Google Maps API が読み込まれていません');
+        return;
+      }
+
+      const geocoder = new google.maps.Geocoder();
+
+      geocoder.geocode({
+        address: address,
+        region: 'JP' // 日本の住所として検索
+      }, (results, status) => {
+        if (status === 'OK' && results[0]) {
+          const location = results[0].geometry.location;
+          resolve({
+            lat: location.lat(),
+            lng: location.lng()
+          });
+        } else {
+          console.error('ジオコーディング失敗:', status);
+          resolve(null);
+        }
+      });
+    });
+  }
 </script>
 
 </main>

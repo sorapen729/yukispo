@@ -1,18 +1,61 @@
-<div>
-  <h2 class="font-bold text-2xl mb-4">gmap</h2>
-  <div id='map'></div>
+<div class="map-container">
+  <h2 class="font-bold text-2xl mb-4 text-center">gmap</h2>
+  <div class="map-wrapper">
+    <div id='map'></div>
+  </div>
 </div>
 
 <style>
-#map {
-  height: 600px;
+.map-container {
+  padding: 16px;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+.map-wrapper {
+  display: flex;
+  justify-content: center;
   width: 100%;
-  max-width: 600px;
+}
+
+#map {
+  height: 300px;
+  width: 100%;
   border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+/* タブレット以上 */
+@media (min-width: 768px) {
+  .map-container {
+    padding: 24px;
+    max-width: 800px;
+  }
+
+  #map {
+    height: 400px;
+    max-width: 600px;
+  }
+}
+
+/* デスクトップ以上 */
+@media (min-width: 1024px) {
+  .map-container {
+    padding: 32px;
+    max-width: 1000px;
+  }
+
+  #map {
+    height: 500px;
+    max-width: 800px;
+  }
 }
 </style>
 
 <script>
+// 住所データをJavaScriptで使用できるように
+const addressesData = <%= raw @addresses.to_json %>;
+
 document.addEventListener('DOMContentLoaded', function() {
   initializeMap();
 });
@@ -42,11 +85,92 @@ function initializeMap() {
     center: { lat: 35.6762, lng: 139.6503 }, // 東京
   });
 
-  const marker = new google.maps.Marker({
-    position: { lat: 35.6762, lng: 139.6503 },
-    map: map,
-  });
+  // 住所データが存在する場合の処理
+  if (addressesData && addressesData.length > 0) {
+    console.log('住所データ:', addressesData);
+    console.log('住所データの件数:', addressesData.length);
+
+    // 各住所に対してジオコーディングまたは既存の緯度経度を使用してマーカーを作成
+    addressesData.forEach(function(address, index) {
+      if (address.lat && address.lng) {
+        // 既に緯度経度がある場合
+        createMarker(map, address.lat, address.lng, address.address);
+      } else {
+        // 緯度経度がない場合はジオコーディングを実行
+        geocodeAddress(map, address.address, address.id);
+      }
+    });
+
+    // 最初の住所がある場合、そこを中心にする
+    if (addressesData[0] && addressesData[0].lat && addressesData[0].lng) {
+      map.setCenter({ lat: parseFloat(addressesData[0].lat), lng: parseFloat(addressesData[0].lng) });
+    }
+  } else {
+    // デフォルトマーカー（東京）
+    const marker = new google.maps.Marker({
+      position: { lat: 35.6762, lng: 139.6503 },
+      map: map,
+      title: "東京"
+    });
+  }
 
   console.log('マップが作成されました');
+}
+
+// マーカーを作成する関数
+function createMarker(map, lat, lng, title) {
+  const marker = new google.maps.Marker({
+    position: { lat: parseFloat(lat), lng: parseFloat(lng) },
+    map: map,
+    title: title,
+    icon: {
+      url: 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(`
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#EF4444">
+          <path d="M12 2C8.686 2 6 4.686 6 8c0 4.5 6 12 6 12s6-7.5 6-12c0-3.314-2.686-6-6-6zm0 8.5A2.5 2.5 0 1 1 12 5.5a2.5 2.5 0 0 1 0 5z"/>
+        </svg>
+      `),
+      scaledSize: new google.maps.Size(24, 24)
+    }
+  });
+
+  // マーカークリック時に住所を表示
+  const infoWindow = new google.maps.InfoWindow({
+    content: `<div style="font-weight: bold; color: #1f2937;">${title}</div>`
+  });
+
+  marker.addListener('click', function() {
+    infoWindow.open(map, marker);
+  });
+
+  return marker;
+}
+
+// 住所をジオコーディングする関数
+function geocodeAddress(map, address, addressId) {
+  const geocoder = new google.maps.Geocoder();
+
+  geocoder.geocode({ address: address }, function(results, status) {
+    if (status === 'OK') {
+      const location = results[0].geometry.location;
+      const lat = location.lat();
+      const lng = location.lng();
+
+      console.log(`住所「${address}」の座標: ${lat}, ${lng}`);
+
+      // マーカーを作成
+      createMarker(map, lat, lng, address);
+
+      // データベースに緯度経度を保存（オプション）
+      updateAddressCoordinates(addressId, lat, lng);
+    } else {
+      console.error('ジオコーディングに失敗しました:', status);
+    }
+  });
+}
+
+// 住所の緯度経度をデータベースに保存する関数（オプション）
+function updateAddressCoordinates(addressId, lat, lng) {
+  // この機能は必要に応じて実装
+  console.log(`住所ID ${addressId} の座標を更新: ${lat}, ${lng}`);
 }
 </script>
