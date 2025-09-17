@@ -3,11 +3,20 @@
   <div class="map-wrapper">
     <div id='map'></div>
   </div>
+
+  <!-- スキー場情報セクション -->
+  <div id="ski-resorts-info" class="ski-resorts-section mt-6">
+    <h3 class="font-bold text-xl mb-4 text-center">近隣スキー場ランキング（上位3箇所）</h3>
+    <div id="ski-resorts-list" class="ski-resorts-list">
+      <!-- スキー場情報がここに動的に追加されます -->
+    </div>
+  </div>
 </div>
 
 <style>
 .map-container {
   padding: 16px;
+  padding-bottom: 48px;
   max-width: 100%;
   margin: 0 auto;
 }
@@ -25,10 +34,83 @@
   border-radius: 8px;
 }
 
+.ski-resorts-section {
+  background: #f8fafc;
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.ski-resorts-list {
+  display: grid;
+  gap: 12px;
+}
+
+.ski-resort-card {
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: box-shadow 0.2s;
+  position: relative;
+}
+
+.ranking-badge {
+  position: absolute;
+  top: -8px;
+  left: -8px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  color: white;
+  font-size: 14px;
+}
+
+.ranking-1 { background: #ffd700; color: #1f2937; }
+.ranking-2 { background: #c0c0c0; color: #1f2937; }
+.ranking-3 { background: #cd7f32; color: white; }
+
+.ski-resort-card:hover {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.ski-resort-info h4 {
+  font-weight: bold;
+  color: #1f2937;
+  margin-bottom: 4px;
+}
+
+.ski-resort-info p {
+  color: #6b7280;
+  font-size: 14px;
+}
+
+.ski-resort-distance {
+  text-align: right;
+  font-size: 14px;
+}
+
+.distance {
+  color: #1f2937;
+  font-weight: bold;
+}
+
+.duration {
+  color: #6b7280;
+  margin-top: 2px;
+}
+
 /* タブレット以上 */
 @media (min-width: 768px) {
   .map-container {
     padding: 24px;
+    padding-bottom: 64px;
     max-width: 800px;
   }
 
@@ -42,6 +124,7 @@
 @media (min-width: 1024px) {
   .map-container {
     padding: 32px;
+    padding-bottom: 80px;
     max-width: 1000px;
   }
 
@@ -56,6 +139,7 @@
 // 住所データをJavaScriptで使用できるように
 const addressesData = <%= raw @addresses.to_json %>;
 const latestAddress = <%= raw @latest_address.to_json %>;
+const skiResortsData = <%= raw @ski_resorts.to_json %>;
 
 document.addEventListener('DOMContentLoaded', function() {
   initializeMap();
@@ -114,6 +198,20 @@ function initializeMap() {
       map: map,
       title: "東京"
     });
+  }
+
+  // スキー場のマーカーを表示
+  if (skiResortsData && skiResortsData.length > 0) {
+    skiResortsData.forEach(function(skiResort) {
+      createSkiResortMarker(map, skiResort);
+    });
+
+    // 最新の住所がある場合、スキー場への距離と時間を計算
+    if (latestAddress && latestAddress.lat && latestAddress.lng) {
+      calculateDistancesAndTimes();
+    } else {
+      displaySkiResortsWithoutDistance();
+    }
   }
 
   console.log('マップが作成されました');
@@ -182,5 +280,167 @@ function geocodeAddress(map, address, addressId) {
 function updateAddressCoordinates(addressId, lat, lng) {
   // この機能は必要に応じて実装
   console.log(`住所ID ${addressId} の座標を更新: ${lat}, ${lng}`);
+}
+
+// スキー場のマーカーを作成する関数
+function createSkiResortMarker(map, skiResort) {
+  const marker = new google.maps.Marker({
+    position: { lat: skiResort.lat, lng: skiResort.lng },
+    map: map,
+    title: skiResort.name,
+    icon: {
+      url: 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(`
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="#059669">
+          <path d="M12 2L13.09 8.26L22 9L13.09 9.74L12 16L10.91 9.74L2 9L10.91 8.26L12 2Z"/>
+        </svg>
+      `),
+      scaledSize: new google.maps.Size(32, 32)
+    }
+  });
+
+  const infoWindow = new google.maps.InfoWindow({
+    content: `
+      <div style="font-weight: bold; color: #1f2937;">
+        ${skiResort.name}<br>
+        <span style="color: #059669; font-size: 12px;">スキー場</span>
+      </div>
+    `
+  });
+
+  marker.addListener('click', function() {
+    infoWindow.open(map, marker);
+  });
+
+  return marker;
+}
+
+// 距離と時間を計算する関数
+function calculateDistancesAndTimes() {
+  const directionsService = new google.maps.DirectionsService();
+  const origin = new google.maps.LatLng(latestAddress.lat, latestAddress.lng);
+
+  let completedCalculations = 0;
+  const skiResortsWithDistances = [];
+
+  skiResortsData.forEach(function(skiResort, index) {
+    const destination = new google.maps.LatLng(skiResort.lat, skiResort.lng);
+
+    directionsService.route({
+      origin: origin,
+      destination: destination,
+      travelMode: google.maps.TravelMode.DRIVING
+    }, function(result, status) {
+      if (status === 'OK') {
+        const route = result.routes[0];
+        const leg = route.legs[0];
+
+        skiResortsWithDistances[index] = {
+          ...skiResort,
+          distance: leg.distance.text,
+          duration: leg.duration.text,
+          distanceValue: leg.distance.value // ソート用の数値
+        };
+      } else {
+        // 直線距離を計算してフォールバック
+        const distance = calculateStraightLineDistance(
+          latestAddress.lat, latestAddress.lng,
+          skiResort.lat, skiResort.lng
+        );
+
+        skiResortsWithDistances[index] = {
+          ...skiResort,
+          distance: `約${Math.round(distance)}km`,
+          duration: `約${Math.round(distance / 60)}時間`,
+          distanceValue: distance * 1000 // ソート用の数値（メートル）
+        };
+      }
+
+      completedCalculations++;
+      if (completedCalculations === skiResortsData.length) {
+        // 距離順にソートして上位3箇所を取得
+        const sortedResorts = skiResortsWithDistances
+          .filter(resort => resort !== undefined)
+          .sort((a, b) => a.distanceValue - b.distanceValue)
+          .slice(0, 3);
+
+        displaySkiResorts(sortedResorts);
+      }
+    });
+  });
+}
+
+// 直線距離を計算する関数（フォールバック用）
+function calculateStraightLineDistance(lat1, lng1, lat2, lng2) {
+  const R = 6371; // 地球の半径（km）
+  const dLat = (lat2 - lat1) * Math.PI / 180;
+  const dLng = (lng2 - lng1) * Math.PI / 180;
+  const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+    Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+    Math.sin(dLng/2) * Math.sin(dLng/2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+  return R * c;
+}
+
+// スキー場情報を距離・時間付きで表示する関数
+function displaySkiResorts(skiResortsWithDistances) {
+  const listContainer = document.getElementById('ski-resorts-list');
+
+  // 既存のカードをクリア
+  listContainer.innerHTML = '';
+
+  skiResortsWithDistances.forEach(function(skiResort, index) {
+    const card = document.createElement('div');
+    card.className = 'ski-resort-card';
+
+    const rankingNumber = index + 1;
+    const rankingClass = `ranking-${rankingNumber}`;
+
+    card.innerHTML = `
+      <div class="ranking-badge ${rankingClass}">${rankingNumber}</div>
+      <div class="ski-resort-info">
+        <h4>${skiResort.name}</h4>
+        <p>${skiResort.address}</p>
+      </div>
+      <div class="ski-resort-distance">
+        <div class="distance">${skiResort.distance}</div>
+        <div class="duration">${skiResort.duration}</div>
+      </div>
+    `;
+
+    listContainer.appendChild(card);
+  });
+}
+
+// 距離情報なしでスキー場情報を表示する関数
+function displaySkiResortsWithoutDistance() {
+  const listContainer = document.getElementById('ski-resorts-list');
+
+  // 既存のカードをクリア
+  listContainer.innerHTML = '';
+
+  // 上位3箇所のみ表示
+  const displayResorts = skiResortsData.slice(0, 3);
+
+  displayResorts.forEach(function(skiResort, index) {
+    const card = document.createElement('div');
+    card.className = 'ski-resort-card';
+
+    const rankingNumber = index + 1;
+    const rankingClass = `ranking-${rankingNumber}`;
+
+    card.innerHTML = `
+      <div class="ranking-badge ${rankingClass}">${rankingNumber}</div>
+      <div class="ski-resort-info">
+        <h4>${skiResort.name}</h4>
+        <p>${skiResort.address}</p>
+      </div>
+      <div class="ski-resort-distance">
+        <div class="distance">-</div>
+        <div class="duration">住所を入力してください</div>
+      </div>
+    `;
+
+    listContainer.appendChild(card);
+  });
 }
 </script>
