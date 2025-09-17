@@ -1,0 +1,52 @@
+<div>
+  <h2 class="font-bold text-2xl mb-4">gmap</h2>
+  <div id='map'></div>
+</div>
+
+<style>
+#map {
+  height: 600px;
+  width: 100%;
+  max-width: 600px;
+  border: 1px solid #ccc;
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  initializeMap();
+});
+
+document.addEventListener('turbo:load', function() {
+  initializeMap();
+});
+
+function initializeMap() {
+  console.log('初期化開始');
+
+  if (typeof google === 'undefined') {
+    console.log('Google Maps API が読み込まれていません');
+    return;
+  }
+
+  const mapElement = document.getElementById("map");
+  if (!mapElement) {
+    console.log('map要素が見つかりません');
+    return;
+  }
+
+  console.log('マップを作成中...');
+
+  const map = new google.maps.Map(mapElement, {
+    zoom: 12,
+    center: { lat: 35.6762, lng: 139.6503 }, // 東京
+  });
+
+  const marker = new google.maps.Marker({
+    position: { lat: 35.6762, lng: 139.6503 },
+    map: map,
+  });
+
+  console.log('マップが作成されました');
+}
+</script>
