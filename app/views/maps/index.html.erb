@@ -1,5 +1,5 @@
 <div class="map-container">
-  <h2 class="font-bold text-2xl mb-4 text-center">経路案内</h2>
+  <h2 class="font-bold text-2xl mb-4 text-center">ルート候補</h2>
   <div class="map-wrapper">
     <div id='map'></div>
   </div>
@@ -13,127 +13,6 @@
   </div>
 </div>
 
-<style>
-.map-container {
-  padding: 16px;
-  padding-bottom: 48px;
-  max-width: 100%;
-  margin: 0 auto;
-}
-
-.map-wrapper {
-  display: flex;
-  justify-content: center;
-  width: 100%;
-}
-
-#map {
-  height: 300px;
-  width: 100%;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-}
-
-.ski-resorts-section {
-  background: #f8fafc;
-  border-radius: 8px;
-  padding: 16px;
-}
-
-.ski-resorts-list {
-  display: grid;
-  gap: 12px;
-}
-
-.ski-resort-card {
-  background: white;
-  border: 1px solid #e2e8f0;
-  border-radius: 8px;
-  padding: 16px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  transition: box-shadow 0.2s;
-  position: relative;
-}
-
-.ranking-badge {
-  position: absolute;
-  top: -8px;
-  left: -8px;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-  color: white;
-  font-size: 14px;
-}
-
-.ranking-1 { background: #ffd700; color: #1f2937; }
-.ranking-2 { background: #c0c0c0; color: #1f2937; }
-.ranking-3 { background: #cd7f32; color: white; }
-
-.ski-resort-card:hover {
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-}
-
-.ski-resort-info h4 {
-  font-weight: bold;
-  color: #1f2937;
-  margin-bottom: 4px;
-}
-
-.ski-resort-info p {
-  color: #6b7280;
-  font-size: 14px;
-}
-
-.ski-resort-distance {
-  text-align: right;
-  font-size: 14px;
-}
-
-.distance {
-  color: #1f2937;
-  font-weight: bold;
-}
-
-.duration {
-  color: #6b7280;
-  margin-top: 2px;
-}
-
-/* タブレット以上 */
-@media (min-width: 768px) {
-  .map-container {
-    padding: 24px;
-    padding-bottom: 64px;
-    max-width: 800px;
-  }
-
-  #map {
-    height: 400px;
-    max-width: 600px;
-  }
-}
-
-/* デスクトップ以上 */
-@media (min-width: 1024px) {
-  .map-container {
-    padding: 32px;
-    padding-bottom: 80px;
-    max-width: 1000px;
-  }
-
-  #map {
-    height: 500px;
-    max-width: 800px;
-  }
-}
-</style>
 
 <script>
 // 住所データをJavaScriptで使用できるように
@@ -183,7 +62,7 @@ function initializeMap() {
     // 最新の住所のみマーカーを作成
     const latestAddressData = addressesData[0];
     if (latestAddressData && latestAddressData.lat && latestAddressData.lng) {
-      createMarker(map, latestAddressData.lat, latestAddressData.lng, latestAddressData.address, true);
+      createMarker(map, latestAddressData.lat, latestAddressData.lng, latestAddressData.address);
     } else if (latestAddressData) {
       // 緯度経度がない場合はジオコーディングを実行
       geocodeAddress(map, latestAddressData.address, latestAddressData.id);
@@ -215,20 +94,15 @@ function initializeMap() {
 }
 
 // マーカーを作成する関数
-function createMarker(map, lat, lng, title, isLatest = false) {
+function createMarker(map, lat, lng, title) {
   const marker = new google.maps.Marker({
     position: { lat: parseFloat(lat), lng: parseFloat(lng) },
     map: map,
     title: title
   });
 
-  // マーカークリック時に住所を表示（最新の住所の場合は「最新」ラベルを追加）
-  const content = isLatest
-    ? `<div style="font-weight: bold; color: #1f2937;">${title}<br><span style="color: #EF4444; font-size: 12px;">最新の住所</span></div>`
-    : `<div style="font-weight: bold; color: #1f2937;">${title}</div>`;
-
   const infoWindow = new google.maps.InfoWindow({
-    content: content
+    content: `<div style="font-weight: bold; color: #1f2937;">${title}<br><span style="color: #EF4444; font-size: 12px;">最新の住所</span></div>`
   });
 
   marker.addListener('click', function() {
@@ -332,10 +206,16 @@ function calculateDistancesAndTimes() {
           skiResort.lat, skiResort.lng
         );
 
+        const hours = Math.floor(distance / 60);
+        const minutes = Math.round(distance % 60);
+        const durationText = hours > 0
+          ? `約${hours}時間${minutes}分`
+          : `約${minutes}分`;
+
         skiResortsWithDistances[index] = {
           ...skiResort,
           distance: `約${Math.round(distance)}km`,
-          duration: `約${Math.round(distance / 60)}時間`,
+          duration: durationText,
           distanceValue: distance * 1000 // ソート用の数値（メートル）
         };
       }
