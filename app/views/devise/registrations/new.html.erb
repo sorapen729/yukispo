@@ -1,4 +1,15 @@
 <div style="text-align: center; max-width: 400px; margin: 0 auto; padding: 20px;">
+  <% if resource.errors.any? %>
+    <div id="error_explanation" data-turbo-cache="false">
+      <h2>
+        <%= I18n.t("errors.messages.not_saved",
+                  count: resource.errors.count,
+                  resource: resource.class.model_name.human.downcase)
+        %>
+      </h2>
+    </div>
+  <% end %>
+
   <h1 style="font-size: 2em; margin-bottom: 30px;">新規登録</h1>
 
   <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
