@@ -1,0 +1,13 @@
+ja:
+  activerecord:
+    models:
+      user: ユーザー
+    attributes:
+      user:
+        email: メールアドレス
+        password: パスワード
+        first_name: 名
+        last_name: 姓
+  errors:
+    messages:
+      blank: "を入力してください"
