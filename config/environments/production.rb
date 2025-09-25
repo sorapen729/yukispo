@@ -99,4 +99,7 @@ Rails.application.configure do
   # ]
   # Skip DNS rebinding protection for the default health check endpoint.
   # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
+
+  # 独自ドメインのホストの許可
+  config.host << "www.yukispo.com"
 end
