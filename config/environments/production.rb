@@ -101,5 +101,5 @@ Rails.application.configure do
   # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
 
   # 独自ドメインのホストの許可
-  config.host << "www.yukispo.com"
+  config.hosts << "www.yukispo.com"
 end
