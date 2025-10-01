@@ -64,3 +64,6 @@ gem "devise"
 
 # デコレーター
 gem "draper", "4.0.2"
+
+# 静的OGP
+gem "meta-tags"
