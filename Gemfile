@@ -63,7 +63,7 @@ gem "tailwindcss-ruby", "3.4.17"
 gem "devise"
 
 # デコレーター
-gem "draper", "4.0.2"
+gem "draper", "4.0.4"
 
 # 静的OGP
 gem "meta-tags"
