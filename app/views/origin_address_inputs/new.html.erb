@@ -94,7 +94,7 @@
               console.log(`住所「${address}」を座標に変換: ${coords.lat}, ${coords.lng}`);
 
               // ジオコーディング完了後にフォームを再送信
-              form.submit();
+              form.requestSubmit();
             } else {
               alert('住所の位置情報を取得できませんでした。住所を確認してください。');
             }
