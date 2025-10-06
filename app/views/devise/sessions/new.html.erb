@@ -1,33 +1,43 @@
-<div style="text-align: center; max-width: 400px; margin: 0 auto; padding: 20px;">
+<div class="container-responsive pt-6 pb-24">
   <%= render "shared/error_explanation", resource: resource %>
-  <h1 style="font-size: 2em; margin-bottom: 30px;">ログイン</h1>
+  <div class="max-w-md mx-auto">
+    <h1 class="text-2xl md:text-3xl font-bold text-center mb-6 md:mb-8 text-slate-800">ログイン</h1>
 
-  <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-    <%= render "devise/shared/error_messages", resource: resource %>
-    
-    <div class="field" style="margin-bottom: 15px;">
-      <%= f.label :email, "メールアドレス" %><br />
-      <%= f.email_field :email, autofocus: true, autocomplete: "email", style: "width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;" %>
-    </div>
+    <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+      <%= render "devise/shared/error_messages", resource: resource %>
 
-    <div class="field" style="margin-bottom: 15px;">
-      <%= f.label :password, "パスワード" %><br />
-      <%= f.password_field :password, autocomplete: "current-password", style: "width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;" %>
-    </div>
+      <div class="field mb-4 md:mb-6">
+        <%= f.label :email, "メールアドレス", class: "block text-sm md:text-base font-medium text-slate-700 mb-2" %>
+        <%= f.email_field :email, autofocus: true, autocomplete: "email",
+            class: "w-full rounded-xl border border-black/10 px-4 py-3 md:py-4 bg-white text-base md:text-lg
+                    focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent" %>
+      </div>
 
-    <% if devise_mapping.rememberable? %>
-      <div class="field" style="margin-bottom: 20px; text-align: left;">
-        <%= f.check_box :remember_me %>
-        <%= f.label :remember_me, "ログイン状態を保持する" %>
+      <div class="field mb-4 md:mb-6">
+        <%= f.label :password, "パスワード", class: "block text-sm md:text-base font-medium text-slate-700 mb-2" %>
+        <%= f.password_field :password, autocomplete: "current-password",
+            class: "w-full rounded-xl border border-black/10 px-4 py-3 md:py-4 bg-white text-base md:text-lg
+                    focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent" %>
+      </div>
+
+      <% if devise_mapping.rememberable? %>
+        <div class="field mb-5 md:mb-6 text-left">
+          <label class="inline-flex items-center">
+            <%= f.check_box :remember_me, class: "rounded border-gray-300 text-sky-500 focus:ring-sky-500" %>
+            <span class="ml-2 text-sm md:text-base text-slate-700">ログイン状態を保持する</span>
+          </label>
+        </div>
+      <% end %>
+
+      <div class="actions">
+        <%= f.submit "ログイン",
+            class: "w-full md:w-auto md:mx-auto md:block text-center rounded-xl px-6 md:px-12 py-3 md:py-4 bg-sky-500 text-white font-semibold text-base md:text-lg
+                    shadow-sm hover:bg-sky-600 transition active:scale-[0.99]" %>
       </div>
     <% end %>
 
-    <div class="actions">
-      <%= f.submit "ログイン", style: "width: 100%; padding: 12px; background-color: #007bff; color: white; border: none; border-radius: 4px; font-size: 16px; cursor: pointer;" %>
+    <div class="mt-6 md:mt-8 text-center text-sm md:text-base">
+      <%= render "devise/shared/links" %>
     </div>
-  <% end %>
-
-  <div style="margin-top: 20px;">
-    <%= render "devise/shared/links" %>
   </div>
 </div>
