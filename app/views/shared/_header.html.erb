@@ -1,18 +1,18 @@
 <!-- ヘッダー -->
 <header class="w-full bg-sky-400 text-white">
-  <div class="max-w-md mx-auto flex items-center justify-between px-4 py-3">
-    <%= link_to '/', class: "text-xl font-bold tracking-wide flex items-center gap-1" do %>
+  <div class="max-w-md md:max-w-2xl lg:max-w-4xl mx-auto flex items-center justify-between px-4 md:px-8 lg:px-12 py-3">
+    <%= link_to '/', class: "text-xl md:text-2xl lg:text-3xl font-bold tracking-wide flex items-center gap-1" do %>
       ゆきスポ<span aria-hidden="true">❄️</span>
     <% end %>
 
-    <div class="flex item-center gap-4">
+    <div class="flex items-center gap-4 md:gap-6">
       <% if user_signed_in? %>
-        <span style="background: ; color: white; padding: 2px; text-decoration: underline;">
+        <span class="text-sm md:text-base underline">
           <%= "#{current_user.last_name || '姓なし'} #{current_user.first_name || '名なし'}" %>
         </span>
-        <%= link_to "ログアウト", destroy_user_session_path, data: { turbo_method: :delete } %>
+        <%= link_to "ログアウト", destroy_user_session_path, data: { turbo_method: :delete }, class: "text-sm md:text-base hover:underline" %>
       <% else %>
-        <%= link_to "ログイン", new_user_session_path %>
+        <%= link_to "ログイン", new_user_session_path, class: "text-sm md:text-base hover:underline" %>
       <% end %>
 
       <!-- ハンバーガー -->

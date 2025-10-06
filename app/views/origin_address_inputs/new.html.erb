@@ -1,28 +1,28 @@
 <!-- フラッシュメッセージ -->
 <% flash.each do |message_type, message| %>
-  <div class="max-w-md mx-auto mb-4 px-4 py-3 rounded-lg bg-red-100 text-red-800 border border-red-200">
+  <div class="flash-message bg-red-100 text-red-800 border border-red-200">
     <%= message %>
   </div>
 <% end %>
 
 <!-- メイン -->
-<main class="max-w-md mx-auto px-4 pt-6 pb-24">
+<main class="container-responsive pt-6 pb-24">
   <!-- タイトル -->
   <section class="text-center">
-    <p class="text-slate-800 text-xl font-semibold mt-4 text-left">住所入力</p>
+    <p class="text-slate-800 text-xl md:text-2xl font-semibold mt-4 text-left">住所入力</p>
   </section>
 
   <!-- ボタン群 -->
   <%= form_with url: origin_address_inputs_path, scope: :origin_address, local: true do |f| %>
-  <div class="space-y-2">
-    <label for="origin_address_address" class="block text-sm font-medium text-slate-700">
+  <div class="space-y-2 mt-8 md:mt-12">
+    <label for="origin_address_address" class="block text-sm md:text-base font-medium text-slate-700">
       出発地の住所 <span class="ml-1 inline-flex items-center px-1.5 py-0.5 rounded bg-red-100 text-red-700 text-[11px]">必須</span>
     </label>
 
     <!-- アイコン付き入力 -->
     <div class="relative">
       <!-- ピンのアイコン -->
-      <svg aria-hidden="true" class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 opacity-70"
+      <svg aria-hidden="true" class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 md:w-6 md:h-6 opacity-70"
             viewBox="0 0 24 24" fill="currentColor">
         <path d="M12 2C8.686 2 6 4.686 6 8c0 4.5 6 12 6 12s6-7.5 6-12c0-3.314-2.686-6-6-6zm0 8.5A2.5 2.5 0 1 1 12 5.5a2.5 2.5 0 0 1 0 5z"/>
       </svg>
@@ -32,7 +32,7 @@
             autocomplete: "street-address",
             inputmode: "text",
             placeholder: "例）東京都千代田区丸の内1-9-1",
-            class: "w-full rounded-xl border border-black/10 px-10 py-3 bg-white
+            class: "w-full rounded-xl border border-black/10 px-10 md:px-12 py-3 md:py-4 bg-white text-base md:text-lg
                     focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent
                     placeholder:text-slate-400" %>
     </div>
@@ -45,15 +45,14 @@
   <!-- 送信ボタン（見た目をリンクと統一） -->
   <div class="mt-4">
     <%= button_tag type: :submit,
-          class: "w-full text-center rounded-xl px-6 py-3 bg-slate-200 text-slate-800 font-semibold
-                  shadow-sm hover:bg-slate-300 transition active:scale-[0.99] border border-black/10",
+          class: "btn-secondary w-full",
           data: { turbo_submits_with: "決定中…" } do %>
       決定
     <% end %>
   </div>
 
   <!-- あると親切な補助UI（任意で外してOK） -->
-  <div class="mt-3 flex items-center justify-between text-xs text-slate-500">
+  <div class="mt-3 flex items-center justify-between text-xs md:text-sm text-slate-500">
     <button type="button" id="clear-address" class="underline hover:text-slate-700">入力をクリア</button>
   </div>
 <% end %>

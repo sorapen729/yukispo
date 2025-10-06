@@ -1,43 +1,58 @@
-<div style="text-align: center; max-width: 400px; margin: 0 auto; padding: 20px;">
+<div class="container-responsive pt-6 pb-24">
   <%= render "shared/error_explanation", resource: resource %>
+  <div class="max-w-md mx-auto">
+    <h1 class="text-2xl md:text-3xl font-bold text-center mb-6 md:mb-8 text-slate-800">新規登録</h1>
 
-  <h1 style="font-size: 2em; margin-bottom: 30px;">新規登録</h1>
+    <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+      <%= render "devise/shared/error_messages", resource: resource %>
 
-  <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-    <%= render "devise/shared/error_messages", resource: resource %>
-
-    <div class="field" style="margin-bottom: 15px;">
-      <label style="display: block; margin-bottom: 5px;">お名前</label>
-      <div style="display: flex; gap: 10px;">
-        <div style="flex: 1;">
-          <%= f.text_field :last_name, maxlength: 6, placeholder: "姓", style: "width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;" %>
-        </div>
-        <div style="flex: 1;">
-          <%= f.text_field :first_name, maxlength: 6, placeholder: "名", style: "width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;" %>
+      <div class="field mb-4 md:mb-6">
+        <label class="block text-sm md:text-base font-medium text-slate-700 mb-2">お名前</label>
+        <div class="flex gap-2 md:gap-3">
+          <div class="flex-1">
+            <%= f.text_field :last_name, maxlength: 6, placeholder: "姓",
+                class: "w-full rounded-xl border border-black/10 px-4 py-3 md:py-4 bg-white text-base md:text-lg
+                        focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent" %>
+          </div>
+          <div class="flex-1">
+            <%= f.text_field :first_name, maxlength: 6, placeholder: "名",
+                class: "w-full rounded-xl border border-black/10 px-4 py-3 md:py-4 bg-white text-base md:text-lg
+                        focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent" %>
+          </div>
         </div>
       </div>
-    </div>
 
-    <div class="field" style="margin-bottom: 15px;">
-      <%= f.label :email, "メールアドレス" %><br />
-      <%= f.email_field :email, autofocus: true, autocomplete: "email", style: "width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;" %>
-    </div>
+      <div class="field mb-4 md:mb-6">
+        <%= f.label :email, "メールアドレス", class: "block text-sm md:text-base font-medium text-slate-700 mb-2" %>
+        <%= f.email_field :email, autofocus: true, autocomplete: "email",
+            class: "w-full rounded-xl border border-black/10 px-4 py-3 md:py-4 bg-white text-base md:text-lg
+                    focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent" %>
+      </div>
 
-    <div class="field" style="margin-bottom: 15px;">
-      <%= f.label :password, "パスワード" %>
-      <% if @minimum_password_length %>
-      <em>（<%= @minimum_password_length %>文字以上）</em>
-      <% end %><br />
-      <%= f.password_field :password, autocomplete: "new-password", style: "width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;" %>
-    </div>
+      <div class="field mb-4 md:mb-6">
+        <div class="mb-2">
+          <%= f.label :password, "パスワード", class: "text-sm md:text-base font-medium text-slate-700" %>
+          <% if @minimum_password_length %>
+          <em class="text-xs md:text-sm text-slate-500">（<%= @minimum_password_length %>文字以上）</em>
+          <% end %>
+        </div>
+        <%= f.password_field :password, autocomplete: "new-password",
+            class: "w-full rounded-xl border border-black/10 px-4 py-3 md:py-4 bg-white text-base md:text-lg
+                    focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent" %>
+      </div>
 
-    <div class="field" style="margin-bottom: 20px;">
-      <%= f.label :password_confirmation, "パスワード（確認）" %><br />
-      <%= f.password_field :password_confirmation, autocomplete: "new-password", style: "width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;" %>
-    </div>  
+      <div class="field mb-5 md:mb-6">
+        <%= f.label :password_confirmation, "パスワード（確認）", class: "block text-sm md:text-base font-medium text-slate-700 mb-2" %>
+        <%= f.password_field :password_confirmation, autocomplete: "new-password",
+            class: "w-full rounded-xl border border-black/10 px-4 py-3 md:py-4 bg-white text-base md:text-lg
+                    focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent" %>
+      </div>
 
-    <div class="actions">
-      <%= f.submit "登録する", style: "width: 100%; padding: 12px; background-color: #007bff; color: white; border: none; border-radius: 4px; font-size: 16px; cursor: pointer;" %>
-    </div>
-  <% end %>
+      <div class="actions">
+        <%= f.submit "登録する",
+            class: "w-full md:w-auto md:mx-auto md:block text-center rounded-xl px-6 md:px-12 py-3 md:py-4 bg-sky-500 text-white font-semibold text-base md:text-lg
+                    shadow-sm hover:bg-sky-600 transition active:scale-[0.99]" %>
+      </div>
+    <% end %>
+  </div>
 </div>
