@@ -13,7 +13,7 @@ RSpec.describe User, type: :model do
       it 'is invalid without last_name' do
         user = build(:user, last_name: nil)
         expect(user).to be_invalid
-        expect(user.errors[:last_name]).to include('を入力してください')
+        expect(user.errors[:last_name]).to include('は6文字以内で入力してください')
       end
 
       it 'is invalid with last_name longer than 6 characters' do
@@ -37,7 +37,7 @@ RSpec.describe User, type: :model do
       it 'is invalid without first_name' do
         user = build(:user, first_name: nil)
         expect(user).to be_invalid
-        expect(user.errors[:first_name]).to include('を入力してください')
+        expect(user.errors[:first_name]).to include('は6文字以内で入力してください')
       end
 
       it 'is invalid with first_name longer than 6 characters' do
