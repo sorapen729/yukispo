@@ -28,11 +28,17 @@ services:
     environment:
       TZ: Asia/Tokyo
       GOOGLE_MAPS_API_KEY: ${GOOGLE_MAPS_API_KEY:?Set in .env}
+      SELENIUM_DRIVER_URL: http://chrome:4444/wd/hub
     ports:
       - "3000:3000"
     depends_on:
       db:
         condition: service_healthy
+  chrome:
+    image: seleniarm/standalone-chromium:latest
+    shm_size: 2gb
+    ports:
+      - "4444:4444"
 volumes:
   bundle_data:
   postgresql_data:
