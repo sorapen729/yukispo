@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'Tops', type: :system do
   let(:user) { create(:user) }
-  
+
   describe 'TOPページ' do
     context 'ログイン前の表示' do
       before do
