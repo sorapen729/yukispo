@@ -35,4 +35,9 @@
     @apply bg-sky-500 text-white hover:bg-sky-600;
     border: none;
   }
+
+  /* DaisyUI リンクのカスタマイズ */
+  .link-primary {
+    @apply text-sky-500 hover:text-sky-700 underline;
+  }
 }
