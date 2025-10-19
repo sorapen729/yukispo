@@ -8,22 +8,16 @@
   <!-- ボタン群 -->
   <section class="mt-8 md:mt-12 space-y-4">
     <!-- 現在地から出発する -->
-    <%= link_to "#", class: "block w-full md:w-auto" do %>
-      <div class="btn-secondary">
-        現在地（開発中）
-      </div>
+    <%= link_to "#", class: "btn btn-neutral w-full md:w-auto" do %>
+      現在地（開発中）
     <% end %>
     <!-- 指定の住所から出発する -->
-    <%= link_to new_origin_address_input_path, class: "block w-full md:w-auto" do %>
-      <div class="btn-secondary">
-        住所入力
-      </div>
+    <%= link_to new_origin_address_input_path, class: "btn btn-neutral w-full md:w-auto" do %>
+      住所入力
     <% end %>
     <!-- 自宅から住所から出発する -->
-    <%= link_to "#", class: "block w-full md:w-auto" do %>
-      <div class="btn-secondary">
-        自宅（開発中）
-      </div>
+    <%= link_to "#", class: "btn btn-neutral w-full md:w-auto" do %>
+      自宅（開発中）
     <% end %>
   </section>
 </main>
