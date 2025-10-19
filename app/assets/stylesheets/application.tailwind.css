@@ -20,4 +20,19 @@
   .flash-message {
     @apply max-w-md md:max-w-2xl lg:max-w-4xl mx-auto mb-4 px-4 md:px-8 py-3 rounded-lg;
   }
+
+  /* DaisyUI ボタンのカスタマイズ */
+  .btn {
+    @apply text-center rounded-xl px-6 py-3 font-semibold shadow-sm transition active:scale-[0.99];
+    border: 1px solid rgba(0,0,0,0.08);
+  }
+
+  .btn-neutral {
+    @apply bg-slate-200 text-slate-800 hover:bg-slate-300;
+  }
+
+  .btn-primary {
+    @apply bg-sky-500 text-white hover:bg-sky-600;
+    border: none;
+  }
 }
