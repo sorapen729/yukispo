@@ -32,9 +32,11 @@ module.exports = {
           "neutral-content": "#1e293b", // slate-800
           "base-100": "#ffffff",       // white background
           "info": "#3abff8",
-          "success": "#36d399",
+          "success": "#dcfce7",        // green-100相当（薄い緑の背景）
+          "success-content": "#166534", // green-800相当（濃い緑の文字）
           "warning": "#fbbd23",
-          "error": "#f87272",
+          "error": "#fee2e2",          // red-100相当（薄い赤の背景）
+          "error-content": "#b91c1c",   // red-700相当（濃い赤の文字）
           "--rounded-btn": "0.75rem",  // rounded-xl
         },
       },
