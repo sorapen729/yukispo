@@ -1,6 +1,6 @@
 <!-- フラッシュメッセージ -->
 <% flash.each do |message_type, message| %>
-  <div class="flash-message bg-green-100 text-green-800 border border-green-200">
+  <div class="alert alert-success">
     <%= message %>
   </div>
 <% end %>
@@ -25,11 +25,8 @@
     <!-- ログイン -->
     <% unless user_signed_in? %>
       <%= link_to (defined?(new_user_session_path) ? new_user_session_path : "#"),
-        class: "block w-full md:w-auto" do %>
-        <div class="text-center rounded-xl px-6 py-3 bg-sky-500 text-white font-semibold
-                    shadow-sm hover:bg-sky-600 transition active:scale-[0.99]">
-          ログイン
-        </div>
+        class: "btn btn-primary w-full md:w-auto" do %>
+        ログイン
       <% end %>
     <% end %>
   </section>
@@ -38,7 +35,7 @@
   <% unless user_signed_in? %>
   <div class="text-center mt-12 md:mt-16">
     <%= link_to "新規登録の方はこちら", new_user_registration_path,
-        class: "text-sky-500 hover:text-sky-700 underline md:text-lg" %>
+        class: "link link-primary md:text-lg" %>
   </div>
   <% end %>
 </main>

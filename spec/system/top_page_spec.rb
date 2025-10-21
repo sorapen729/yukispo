@@ -35,7 +35,7 @@ RSpec.describe 'Tops', type: :system do
       let(:user) { create(:user, password: 'password', password_confirmation: 'password') }
 
       before do
-        sign_in_as user
+        sign_in_as user, password: 'password'
         visit root_path
       end
 

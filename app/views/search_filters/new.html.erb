@@ -1,6 +1,6 @@
 <!-- フラッシュメッセージ -->
 <% flash.each do |message_type, message| %>
-  <div class="flash-message bg-green-100 text-green-800 border border-green-200">
+  <div class="alert alert-success">
     <%= message %>
   </div>
 <% end %>
@@ -101,9 +101,7 @@
   <!-- 送信ボタン -->
   <div class="mt-8 md:mt-12 pt-6">
     <%= button_tag type: :submit,
-          class: "w-full md:w-auto md:mx-auto md:block text-center rounded-xl px-6 md:px-12 py-4 bg-blue-600 text-white font-semibold text-lg md:text-xl
-                  shadow-lg hover:bg-blue-700 transition-all duration-200 active:scale-[0.98]
-                  focus:outline-none focus:ring-4 focus:ring-blue-300",
+          class: "btn btn-primary w-full md:w-auto",
           data: { turbo_submits_with: "検索中..." } do %>
       この条件で検索する
     <% end %>

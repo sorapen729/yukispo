@@ -1,4 +1,7 @@
-<div class="map-container">
+<div class="map-container"
+     data-addresses="<%= @addresses.to_json %>"
+     data-latest-address="<%= @latest_address.to_json %>"
+     data-ski-resorts="<%= @ski_resorts.to_json %>">
   <h2 class="font-bold text-2xl mb-4 text-center">ルート候補</h2>
   <div class="map-wrapper">
     <div id='map'></div>
@@ -15,18 +18,35 @@
 
 
 <script>
-// 住所データをJavaScriptで使用できるように
-const addressesData = <%= raw @addresses.to_json %>;
-const latestAddress = <%= raw @latest_address.to_json %>;
-const skiResortsData = <%= raw @ski_resorts.to_json %>;
+// グローバル変数として宣言（各関数からアクセスできるように）
+let addressesData;
+let latestAddress;
+let skiResortsData;
 
 document.addEventListener('DOMContentLoaded', function() {
-  initializeMap();
+  loadDataAndInitializeMap();
 });
 
 document.addEventListener('turbo:load', function() {
-  initializeMap();
+  loadDataAndInitializeMap();
 });
+
+function loadDataAndInitializeMap() {
+  // data属性から毎回最新のデータを読み込む
+  const mapContainer = document.querySelector('.map-container');
+  if (!mapContainer) {
+    console.log('map-containerが見つかりません');
+    return;
+  }
+
+  addressesData = JSON.parse(mapContainer.dataset.addresses);
+  latestAddress = JSON.parse(mapContainer.dataset.latestAddress);
+  skiResortsData = JSON.parse(mapContainer.dataset.skiResorts);
+
+  console.log('データを読み込みました:', { addressesData, latestAddress, skiResortsData });
+
+  initializeMap();
+}
 
 function initializeMap() {
   console.log('初期化開始');
