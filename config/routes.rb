@@ -16,6 +16,7 @@ Rails.application.routes.draw do
   resources :origin_address_inputs, only: %i[new create]
   resource :search_filter, only: %i[new]
   resources :maps, only: %i[index]
+  resource :mypage, only: %i[show edit update]
   # Defines the root path route ("/")
   # 既存
   # root "posts#index"
