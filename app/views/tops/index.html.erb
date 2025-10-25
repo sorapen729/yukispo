@@ -34,8 +34,7 @@
   <!--  新規登録  -->
   <% unless user_signed_in? %>
   <div class="text-center mt-12 md:mt-16">
-    <%= link_to "新規登録の方はこちら", new_user_registration_path,
-        class: "link link-primary md:text-lg" %>
+    <%= link_to "新規登録の方はこちら", new_user_registration_path, class: "link link-primary md:text-lg" %>
   </div>
   <% end %>
 </main>

@@ -10,12 +10,11 @@
         <span class="text-sm md:text-base underline">
           <%= "#{current_user.last_name || '姓なし'} #{current_user.first_name || '名なし'}" %>
         </span>
-        <%= link_to "ログアウト", destroy_user_session_path, data: { turbo_method: :delete }, class: "text-sm md:text-base hover:underline" %>
       <% else %>
-        <%= link_to "ログイン", new_user_session_path, class: "text-sm md:text-base hover:underline" %>
+        <span class="text-sm md:text-base opacity-90">⛷️ ゲスト 🏂</span>
       <% end %>
 
-      <!-- ハンバーガー -->
+      <!-- ハンバーガーメニュー -->
       <button id="hamburger-btn" class="hamburger-btn" aria-label="メニューを開く" aria-controls="hamburger-nav" aria-expanded="false">
         <span></span>
         <span></span>
@@ -24,23 +23,22 @@
 
       <nav id="hamburger-nav" class="hamburger-nav" aria-hidden="true">
         <ul>
-          <li><%= link_to '❓クイズ一覧', "#" %></li>
           <% if user_signed_in? %>
-            <li><%= link_to '✏️クイズを作る', "#" %></li>
-            <li><%= link_to '👤マイページ', profile_path(current_user) %></li>
+            <li><%= link_to 'マイページ', "#" %></li>
             <hr>
-            <li>
-              <%= link_to '🎈ログアウト', "#", data: { "turbo-method": :delete, turbo_confirm: "ログアウトしてもよろしいですか？" } %>
-            </li>
+            <li><%= link_to '利用規約', "#" %></li>
+            <li><%= link_to 'プライバシーポリシー', "#" %></li>
+            <li><%= link_to 'お問い合わせフォーム', "#" %></li>
+            <hr>
+            <li><%= link_to 'ログアウト', destroy_user_session_path, data: { "turbo-method": :delete, turbo_confirm: "ログアウトしてもよろしいですか？" } %></li>
           <% else %>
-            <li><%= link_to '🚪ログイン', "#" %></li>
-            <li><%= link_to '📝ユーザー登録', "#" %></li>
+            <li><%= link_to '新規登録', new_user_registration_path %></li>
+            <li><%= link_to "ログイン", new_user_session_path %></li>
             <hr>
-            <li>
-              <a href="#" class="js-open-login-modal" title="クイズを作るにはログインが必要です">✏️クイズを作る</a>
-            </li>
+            <li><%= link_to '利用規約', "#" %></li>
+            <li><%= link_to 'プライバシーポリシー', "#" %></li>
+            <li><%= link_to 'お問い合わせフォーム', "#" %></li>
           <% end %>
-          <li><%= link_to '📘遊び方', "#" %></li>
         </ul>
       </nav>
 

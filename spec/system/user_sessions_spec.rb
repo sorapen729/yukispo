@@ -134,14 +134,24 @@ RSpec.describe 'UserSessions', type: :system do
     end
 
     it 'ログアウトボタンをクリックするとログアウトできる' do
-      click_link 'ログアウト'
+      # ハンバーガーメニューを開く
+      find('#hamburger-btn').click
+      # 確認ダイアログを自動的に受け入れる
+      accept_confirm do
+        click_link 'ログアウト'
+      end
 
-      expect(page).to have_link('ログイン')
-      expect(page).not_to have_link('ログアウト')
+      expect(page).to have_content('⛷️ ゲスト 🏂')
+      expect(page).not_to have_link('ログアウト', visible: :all)
     end
 
     it 'ログアウト後、TOPページにリダイレクトされる' do
-      click_link 'ログアウト'
+      # ハンバーガーメニューを開く
+      find('#hamburger-btn').click
+      # 確認ダイアログを自動的に受け入れる
+      accept_confirm do
+        click_link 'ログアウト'
+      end
 
       expect(page).to have_current_path(root_path)
     end

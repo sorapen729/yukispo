@@ -41,33 +41,45 @@
     @apply text-sky-500 hover:text-sky-700 underline;
   }
 
-  /* --- ハンバーガーボタン --- */
+  /* --- ハンバーガーボタン（フロストガラス風デザイン） --- */
   .hamburger-btn {
     position: relative;
     z-index: 1000;
     width: 42px;
     height: 42px;
-    border: none;
-    background: #4caf50;
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(56, 189, 248, 0.3);
     border-radius: 50%;
     cursor: pointer;
     display: block;
+    box-shadow: 0 4px 12px rgba(56, 189, 248, 0.2);
+    transition: all 0.3s;
   }
-  
+
+  .hamburger-btn:hover {
+    background: rgba(255, 255, 255, 1);
+    border-color: rgba(56, 189, 248, 0.5);
+    box-shadow: 0 6px 16px rgba(56, 189, 248, 0.3);
+    transform: scale(1.05);
+  }
+
   .hamburger-btn span {
     display: block;
     position: absolute;
     left: 10px;
     width: 22px;
     height: 2px;
-    background-color: #fff;
+    background-color: #38bdf8; /* sky-400 */
     transition: 0.3s;
     border-radius: 2px;
+    box-shadow: 0 1px 2px rgba(56, 189, 248, 0.3);
   }
   
   .hamburger-btn span:nth-child(1) { top: 12px; }
   .hamburger-btn span:nth-child(2) { top: 20px; }
-  .hamburger-btn span:nth-child(3) { bottom: 12px; }
+  .hamburger-btn span:nth-child(3) { top: 28px; }
   
   
   /* --- メニューが開いた時のボタン（×印）の形 --- */
@@ -84,39 +96,75 @@
   }
   
   
-  /* --- ナビゲーションメニュー本体 --- */
+  /* --- ナビゲーションメニュー本体（フロストガラス風デザイン） --- */
   .hamburger-nav {
     position: fixed;
     top: 0;
     right: 0;
     z-index: 999;
-    width: 200px;
+    width: 280px;
     height: 100%;
-    background: #fff;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-left: 1px solid rgba(56, 189, 248, 0.2);
     transform: translateX(100%); /* 初期状態は画面の外に隠す */
-    transition: 0.3s;
+    transition: transform 0.3s ease-in-out;
     padding-top: 80px;
+    box-shadow: -4px 0 20px rgba(56, 189, 248, 0.1);
   }
-  
+
   .hamburger-nav.is-active {
     transform: translateX(0); /* 画面内に表示 */
   }
-  
+
   .hamburger-nav ul {
     list-style: none;
     padding: 0;
     margin: 0;
   }
-  
+
+  .hamburger-nav li {
+    position: relative;
+  }
+
   .hamburger-nav li a {
     display: block;
-    padding: 15px 25px;
-    color: #333;
+    padding: 16px 25px;
+    color: #1e293b; /* slate-800 */
     text-decoration: none;
     font-size: 16px;
+    transition: all 0.3s;
+    font-weight: 500;
+    position: relative;
   }
+
+  .hamburger-nav li a::before {
+    content: '❄️';
+    opacity: 0;
+    margin-right: 8px;
+    transition: opacity 0.3s;
+    position: absolute;
+    left: 8px;
+  }
+
   .hamburger-nav li a:hover {
-    background: #f5f5f5;
+    background: rgba(56, 189, 248, 0.1);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    padding-left: 40px;
+    box-shadow: inset 3px 0 0 #38bdf8;
+  }
+
+  .hamburger-nav li a:hover::before {
+    opacity: 1;
+  }
+
+  .hamburger-nav hr {
+    border: none;
+    border-top: 1px solid rgba(56, 189, 248, 0.15);
+    margin: 12px 20px;
+    box-shadow: 0 1px 2px rgba(56, 189, 248, 0.05);
   }
 
   /* --- (オプション) 背景オーバーレイ --- */
@@ -136,5 +184,143 @@
   .overlay.is-active {
     opacity: 1;
     visibility: visible;
+  }
+
+  /* --- Error Messages (application.cssから移行) --- */
+  #error_explanation {
+    @apply text-red-900 bg-red-100 border border-red-300 px-5 py-3 mb-4 rounded;
+  }
+
+  #error_explanation h2 {
+    @apply text-red-900 text-lg mb-2;
+  }
+
+  #error_explanation ul {
+    @apply mb-0 pl-5 text-left;
+  }
+
+  #error_explanation li {
+    @apply mb-1;
+  }
+
+  /* --- Maps Styles (maps.cssから移行) --- */
+  .map-container {
+    padding: 16px;
+    padding-bottom: 48px;
+    max-width: 100%;
+    margin: 0 auto;
+  }
+
+  .map-wrapper {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+
+  #map {
+    height: 300px;
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+  }
+
+  .ski-resorts-section {
+    background: #f8fafc;
+    border-radius: 8px;
+    padding: 16px;
+  }
+
+  .ski-resorts-list {
+    display: grid;
+    gap: 12px;
+  }
+
+  .ski-resort-card {
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: box-shadow 0.2s;
+    position: relative;
+  }
+
+  .ranking-badge {
+    position: absolute;
+    top: -8px;
+    left: -8px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: white;
+    font-size: 14px;
+  }
+
+  .ranking-1 { background: #ffd700; color: #1f2937; }
+  .ranking-2 { background: #4682b4; color: white; }
+  .ranking-3 { background: #cd7f32; color: white; }
+
+  .ski-resort-card:hover {
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  }
+
+  .ski-resort-info h4 {
+    font-weight: bold;
+    color: #1f2937;
+    margin-bottom: 4px;
+  }
+
+  .ski-resort-info p {
+    color: #6b7280;
+    font-size: 14px;
+  }
+
+  .ski-resort-distance {
+    text-align: right;
+    font-size: 14px;
+  }
+
+  .distance {
+    color: #1f2937;
+    font-weight: bold;
+  }
+
+  .duration {
+    color: #6b7280;
+    margin-top: 2px;
+  }
+}
+
+/* タブレット以上 */
+@media (min-width: 768px) {
+  .map-container {
+    padding: 24px;
+    padding-bottom: 64px;
+    max-width: 800px;
+  }
+
+  #map {
+    height: 400px;
+    max-width: 600px;
+  }
+}
+
+/* デスクトップ以上 */
+@media (min-width: 1024px) {
+  .map-container {
+    padding: 32px;
+    padding-bottom: 80px;
+    max-width: 1000px;
+  }
+
+  #map {
+    height: 500px;
+    max-width: 800px;
   }
 }
