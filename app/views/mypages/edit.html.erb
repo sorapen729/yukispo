@@ -1,0 +1,69 @@
+<!-- フラッシュメッセージ -->
+<% flash.each do |message_type, message| %>
+  <div class="alert <%= message_type == 'notice' ? 'alert-success' : 'alert-error' %> mx-auto max-w-md mt-4">
+    <%= message %>
+  </div>
+<% end %>
+
+<!-- プロフィール編集 -->
+<main class="container-responsive pt-6 pb-24">
+  <!-- タイトル -->
+  <section class="text-center mb-8">
+    <h1 class="text-3xl md:text-4xl font-bold text-slate-800">
+      プロフィール編集
+    </h1>
+  </section>
+
+  <!-- 編集フォーム -->
+  <section class="max-w-2xl mx-auto">
+    <div class="card bg-white shadow-lg">
+      <div class="card-body">
+        <%= form_with model: @user, url: mypage_path, method: :patch, local: true do |f| %>
+          <!-- エラーメッセージ -->
+          <% if @user.errors.any? %>
+            <div class="alert alert-error mb-6">
+              <div>
+                <h3 class="font-bold"><%= pluralize(@user.errors.count, "個のエラー") %>が発生しました</h3>
+                <ul class="list-disc list-inside mt-2">
+                  <% @user.errors.full_messages.each do |message| %>
+                    <li><%= message %></li>
+                  <% end %>
+                </ul>
+              </div>
+            </div>
+          <% end %>
+
+          <!-- 姓 -->
+          <div class="form-control mb-4">
+            <%= f.label :last_name, class: "label" do %>
+              <span class="label-text font-semibold">姓</span>
+            <% end %>
+            <%= f.text_field :last_name, class: "input input-bordered w-full", placeholder: "山田" %>
+          </div>
+
+          <!-- 名 -->
+          <div class="form-control mb-4">
+            <%= f.label :first_name, class: "label" do %>
+              <span class="label-text font-semibold">名</span>
+            <% end %>
+            <%= f.text_field :first_name, class: "input input-bordered w-full", placeholder: "太郎" %>
+          </div>
+
+          <!-- メールアドレス -->
+          <div class="form-control mb-6">
+            <%= f.label :email, class: "label" do %>
+              <span class="label-text font-semibold">メールアドレス</span>
+            <% end %>
+            <%= f.email_field :email, class: "input input-bordered w-full", placeholder: "example@example.com" %>
+          </div>
+
+          <!-- ボタン -->
+          <div class="flex flex-col md:flex-row gap-4 justify-center mt-6">
+            <%= f.submit "更新する", class: "btn btn-primary w-full md:w-auto" %>
+            <%= link_to "キャンセル", mypage_path, class: "btn btn-ghost w-full md:w-auto" %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </section>
+</main>
