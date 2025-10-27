@@ -86,9 +86,12 @@ function initializeMap() {
     const latestAddressData = addressesData[0];
     if (latestAddressData && latestAddressData.lat && latestAddressData.lng) {
       createMarker(map, latestAddressData.lat, latestAddressData.lng, latestAddressData.address);
-    } else if (latestAddressData) {
+
+      // スキー場のマーカーと経路を表示
+      displaySkiResortsAndRoutes(map);
+    } else if (latestAddressData && latestAddressData.address) {
       // 緯度経度がない場合はジオコーディングを実行
-      geocodeAddress(map, latestAddressData.address, latestAddressData.id);
+      geocodeAddressAndDisplayRoutes(map, latestAddressData.address, latestAddressData.id);
     }
   } else {
     // デフォルトマーカー（東京）
@@ -97,18 +100,12 @@ function initializeMap() {
       map: map,
       title: "東京"
     });
-  }
 
-  // スキー場のマーカーを表示
-  if (skiResortsData && skiResortsData.length > 0) {
-    skiResortsData.forEach(function(skiResort) {
-      createSkiResortMarker(map, skiResort);
-    });
-
-    // 最新の住所がある場合、スキー場への距離と時間を計算
-    if (latestAddress && latestAddress.lat && latestAddress.lng) {
-      calculateDistancesAndTimes();
-    } else {
+    // スキー場のマーカーのみ表示（経路なし）
+    if (skiResortsData && skiResortsData.length > 0) {
+      skiResortsData.forEach(function(skiResort) {
+        createSkiResortMarker(map, skiResort);
+      });
       displaySkiResortsWithoutDistance();
     }
   }
@@ -135,8 +132,8 @@ function createMarker(map, lat, lng, title) {
   return marker;
 }
 
-// 住所をジオコーディングする関数
-function geocodeAddress(map, address, addressId) {
+// 住所をジオコーディングして経路を表示する関数
+function geocodeAddressAndDisplayRoutes(map, address, addressId) {
   const geocoder = new google.maps.Geocoder();
 
   geocoder.geocode({ address: address }, function(results, status) {
@@ -147,15 +144,50 @@ function geocodeAddress(map, address, addressId) {
 
       console.log(`住所「${address}」の座標: ${lat}, ${lng}`);
 
+      // latestAddressを更新（重要！）
+      latestAddress = {
+        address: address,
+        lat: lat,
+        lng: lng
+      };
+
       // マーカーを作成
       createMarker(map, lat, lng, address);
 
+      // スキー場のマーカーと経路を表示
+      displaySkiResortsAndRoutes(map);
+
       // データベースに緯度経度を保存（オプション）
-      updateAddressCoordinates(addressId, lat, lng);
+      if (addressId) {
+        updateAddressCoordinates(addressId, lat, lng);
+      }
     } else {
       console.error('ジオコーディングに失敗しました:', status);
+      // ジオコーディング失敗時もスキー場マーカーは表示
+      if (skiResortsData && skiResortsData.length > 0) {
+        skiResortsData.forEach(function(skiResort) {
+          createSkiResortMarker(map, skiResort);
+        });
+        displaySkiResortsWithoutDistance();
+      }
     }
   });
+}
+
+// スキー場マーカーと経路を表示するヘルパー関数
+function displaySkiResortsAndRoutes(map) {
+  if (skiResortsData && skiResortsData.length > 0) {
+    skiResortsData.forEach(function(skiResort) {
+      createSkiResortMarker(map, skiResort);
+    });
+
+    // 最新の住所がある場合、スキー場への距離と時間を計算
+    if (latestAddress && latestAddress.lat && latestAddress.lng) {
+      calculateDistancesAndTimes();
+    } else {
+      displaySkiResortsWithoutDistance();
+    }
+  }
 }
 
 // 住所の緯度経度をデータベースに保存する関数（オプション）

@@ -1,0 +1,117 @@
+<!-- フラッシュメッセージ -->
+<% flash.each do |message_type, message| %>
+  <div class="alert <%= message_type == 'notice' ? 'alert-success' : 'alert-error' %> mx-auto max-w-md mt-4">
+    <%= message %>
+  </div>
+<% end %>
+
+<!-- プロフィール編集 -->
+<main class="container-responsive pt-6 pb-24">
+  <!-- タイトル -->
+  <section class="text-center mb-8">
+    <h1 class="text-3xl md:text-4xl font-bold text-slate-800">
+      プロフィール編集
+    </h1>
+  </section>
+
+  <!-- 編集フォーム -->
+  <section class="max-w-2xl mx-auto">
+    <div class="card bg-white shadow-lg">
+      <div class="card-body">
+        <%= form_with model: @user, url: mypage_path, method: :patch, local: true do |f| %>
+          <!-- エラーメッセージ -->
+          <% if @user.errors.any? %>
+            <div class="alert alert-error mb-6">
+              <div>
+                <h3 class="font-bold"><%= pluralize(@user.errors.count, "個のエラー") %>が発生しました</h3>
+                <ul class="list-disc list-inside mt-2">
+                  <% @user.errors.full_messages.each do |message| %>
+                    <li><%= message %></li>
+                  <% end %>
+                </ul>
+              </div>
+            </div>
+          <% end %>
+
+          <!-- 姓 -->
+          <div class="space-y-2 mb-6">
+            <label for="user_last_name" class="block text-sm md:text-base font-medium text-slate-700">
+              姓 <span class="ml-1 inline-flex items-center px-1.5 py-0.5 rounded bg-red-100 text-red-700 text-[11px]">必須</span>
+            </label>
+            <div class="relative">
+              <svg aria-hidden="true" class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 md:w-6 md:h-6 opacity-70"
+                    viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+              </svg>
+              <%= f.text_field :last_name,
+                    class: "w-full rounded-xl border border-black/10 px-10 md:px-12 py-3 md:py-4 bg-white text-base md:text-lg
+                            focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent
+                            placeholder:text-slate-400",
+                    placeholder: "山田" %>
+            </div>
+          </div>
+
+          <!-- 名 -->
+          <div class="space-y-2 mb-6">
+            <label for="user_first_name" class="block text-sm md:text-base font-medium text-slate-700">
+              名 <span class="ml-1 inline-flex items-center px-1.5 py-0.5 rounded bg-red-100 text-red-700 text-[11px]">必須</span>
+            </label>
+            <div class="relative">
+              <svg aria-hidden="true" class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 md:w-6 md:h-6 opacity-70"
+                    viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+              </svg>
+              <%= f.text_field :first_name,
+                    class: "w-full rounded-xl border border-black/10 px-10 md:px-12 py-3 md:py-4 bg-white text-base md:text-lg
+                            focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent
+                            placeholder:text-slate-400",
+                    placeholder: "太郎" %>
+            </div>
+          </div>
+
+          <!-- メールアドレス -->
+          <div class="space-y-2 mb-6">
+            <label for="user_email" class="block text-sm md:text-base font-medium text-slate-700">
+              メールアドレス <span class="ml-1 inline-flex items-center px-1.5 py-0.5 rounded bg-red-100 text-red-700 text-[11px]">必須</span>
+            </label>
+            <div class="relative">
+              <svg aria-hidden="true" class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 md:w-6 md:h-6 opacity-70"
+                    viewBox="0 0 24 24" fill="currentColor">
+                <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+              </svg>
+              <%= f.email_field :email,
+                    class: "w-full rounded-xl border border-black/10 px-10 md:px-12 py-3 md:py-4 bg-white text-base md:text-lg
+                            focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent
+                            placeholder:text-slate-400",
+                    placeholder: "example@example.com" %>
+            </div>
+          </div>
+
+          <!-- 住所 -->
+          <div class="space-y-2 mb-6">
+            <label for="user_address" class="block text-sm md:text-base font-medium text-slate-700">
+              お気に入り住所（任意）
+            </label>
+            <div class="relative">
+              <svg aria-hidden="true" class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 md:w-6 md:h-6 opacity-70"
+                    viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2C8.686 2 6 4.686 6 8c0 4.5 6 12 6 12s6-7.5 6-12c0-3.314-2.686-6-6-6zm0 8.5A2.5 2.5 0 1 1 12 5.5a2.5 2.5 0 0 1 0 5z"/>
+              </svg>
+              <%= f.text_field :address,
+                    class: "w-full rounded-xl border border-black/10 px-10 md:px-12 py-3 md:py-4 bg-white text-base md:text-lg
+                            focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent
+                            placeholder:text-slate-400",
+                    placeholder: "例）東京都千代田区丸の内1-9-1" %>
+            </div>
+          </div>
+
+          <!-- ボタン -->
+          <div class="flex flex-col md:flex-row gap-4 justify-center mt-6">
+            <%= f.submit "更新する", class: "btn btn-primary w-full md:w-auto" %>
+            <%= link_to "キャンセル", mypage_path, class: "btn btn-ghost w-full md:w-auto" %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </section>
+</main>

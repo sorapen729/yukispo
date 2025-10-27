@@ -1,7 +1,15 @@
 class MapsController < ApplicationController
   def index
-    @addresses = Address.all.select(:id, :address, :lat, :lng).order(created_at: :desc)
-    @latest_address = @addresses.first
+    # セッションから出発地住所を取得
+    if session[:origin_address].present?
+      # セッションに保存された住所を使用（お気に入り住所など）
+      @latest_address = session[:origin_address]
+      @addresses = [ @latest_address ]
+    else
+      # セッションにない場合は、Addressテーブルから取得
+      @addresses = Address.all.select(:id, :address, :lat, :lng).order(created_at: :desc)
+      @latest_address = @addresses.first
+    end
 
     # スキー場のサンプルデータ
     @ski_resorts = [
