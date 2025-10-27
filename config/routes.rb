@@ -14,6 +14,7 @@ Rails.application.routes.draw do
 
   resource :origin_selection, only: %i[new]
   resources :origin_address_inputs, only: %i[new create]
+  resources :origin_favorite_addresses, only: %i[create]
   resource :search_filter, only: %i[new]
   resources :maps, only: %i[index]
   resource :mypage, only: %i[show edit update]

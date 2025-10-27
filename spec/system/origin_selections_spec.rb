@@ -59,7 +59,7 @@ RSpec.describe 'OriginSelections', type: :system do
       end
 
       it 'お気に入り住所ボタンをクリックすると検索条件設定画面に遷移する' do
-        click_link 'お気に入り住所を使う'
+        click_button 'お気に入り住所を使う'
         expect(page).to have_current_path(new_search_filter_path)
       end
     end
