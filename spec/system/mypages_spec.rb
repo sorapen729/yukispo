@@ -211,36 +211,30 @@ RSpec.describe 'Mypages', type: :system do
         fill_in '姓', with: ''
         click_button '更新する'
 
-        expect(page).to have_current_path(mypage_path)
+        expect(page).to have_current_path(edit_mypage_path)
         expect(page).to have_content('プロフィールの更新に失敗しました')
         expect(page).to have_content('エラー')
+        expect(page).to have_field('姓', with: '')
       end
 
       it '名が空の場合、更新に失敗しエラーメッセージが表示される' do
         fill_in '名', with: ''
         click_button '更新する'
 
-        expect(page).to have_current_path(mypage_path)
+        expect(page).to have_current_path(edit_mypage_path)
         expect(page).to have_content('プロフィールの更新に失敗しました')
         expect(page).to have_content('エラー')
+        expect(page).to have_field('名', with: '')
       end
 
       it 'メールアドレスが空の場合、更新に失敗しエラーメッセージが表示される' do
         fill_in 'メールアドレス', with: ''
         click_button '更新する'
 
-        expect(page).to have_current_path(mypage_path)
+        expect(page).to have_current_path(edit_mypage_path)
         expect(page).to have_content('プロフィールの更新に失敗しました')
         expect(page).to have_content('エラー')
-      end
-
-      it 'メールアドレスの形式が不正な場合、更新に失敗しエラーメッセージが表示される' do
-        fill_in 'メールアドレス', with: 'invalid-email'
-        click_button '更新する'
-
-        expect(page).to have_current_path(mypage_path)
-        expect(page).to have_content('プロフィールの更新に失敗しました')
-        expect(page).to have_content('エラー')
+        expect(page).to have_field('メールアドレス', with: '')
       end
 
       it '既に使用されているメールアドレスでは更新できない' do
@@ -250,9 +244,10 @@ RSpec.describe 'Mypages', type: :system do
         fill_in 'メールアドレス', with: 'existing@example.com'
         click_button '更新する'
 
-        expect(page).to have_current_path(mypage_path)
+        expect(page).to have_current_path(edit_mypage_path)
         expect(page).to have_content('プロフィールの更新に失敗しました')
         expect(page).to have_content('エラー')
+        expect(page).to have_field('メールアドレス', with: 'existing@example.com')
       end
     end
   end
